@@ -1,8 +1,9 @@
 <template>
     <div class="container">
         <div class="header">
-            <img src="../assets/logo.svg" style="width: 60px;height: 60px;filter: drop-shadow(2px 2px 6px #79bbff);" />
-            <span class="title">ZO<b style="color: #1283FF;">C</b>RM</span>
+            <img src="../assets/shlogo3.svg"
+                style="width: 60px;height: 60px;filter: drop-shadow(2px 2px 6px #79bbff);" />
+            <span class="title">SH<b style="color: #1283FF;">ADMIN</b></span>
         </div>
         <div class="content">
             <div class="main">
@@ -14,19 +15,24 @@
             </div>
             <div class="footer">
                 <div class="links">
-                    <a href="https://github.com/zchengo/crm">开源地址</a>
-                    <a href="https://github.com/zchengo/crm/blob/main/LICENSE">许可证</a>
-                    <a href="https://mail.qq.com/">企鹅邮箱</a>
+                    <GithubOutlined /><a href="https://github.com/FatSong207">GitHub</a>
+                    <!-- <a href="https://github.com/zchengo/crm/blob/main/LICENSE">许可证</a>
+                    <a href="https://mail.qq.com/">企鹅邮箱</a> -->
                 </div>
-                <div class="copyright">Copyright © 2022 www.zocrm.cloud</div>
+                <div class="copyright">Copyright © 2022 sh-admin</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import {
+    GithubOutlined
+} from '@ant-design/icons-vue'
 export default {
-
+    components: {
+        GithubOutlined
+    }
 }
 </script>
 

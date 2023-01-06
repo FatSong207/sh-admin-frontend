@@ -1,14 +1,15 @@
 <template>
-    <a-form :model="formData" name="normal_login" class="login-form" @finish="onLogin" @finishFailed="onLoginFailed">
-        <a-form-item name="email" :rules="[{ required: true, message: '请输入邮箱!' }]">
-            <a-input v-model:value="formData.email" size="large" placeholder="邮箱">
+    <a-form :model="formData" name="normal_login" class="login-form" @finish="onLogin"
+        @finishFailed="onLoginFailed">
+        <a-form-item name="email" :rules="[{ required: true, message: '請輸入EMail!' }]">
+            <a-input v-model:value="formData.email" size="large" placeholder="EMail">
                 <template #prefix>
                     <UserOutlined class="site-form-item-icon" />
                 </template>
             </a-input>
         </a-form-item>
-        <a-form-item name="password" :rules="[{ required: true, message: '请输入密码!' }]">
-            <a-input-password v-model:value="formData.password" size="large" placeholder="密码">
+        <a-form-item name="password" :rules="[{ required: true, message: '請輸入密碼!' }]">
+            <a-input-password v-model:value="formData.password" size="large" placeholder="密碼">
                 <template #prefix>
                     <LockOutlined class="site-form-item-icon" />
                 </template>
@@ -16,17 +17,17 @@
         </a-form-item>
         <a-form-item>
             <a-form-item name="remember" no-style>
-                <a-checkbox v-model:checked="formData.remember" style="float: left;">记住我</a-checkbox>
+                <a-checkbox v-model:checked="formData.remember" style="float: left;">記住我</a-checkbox>
             </a-form-item>
-            <a class="login-form-forgot" style="float: right;" @click="forgotPass">忘记密码？</a>
+            <a class="login-form-forgot" style="float: right;" @click="forgotPass">忘記密碼？</a>
         </a-form-item>
         <a-form-item>
             <a-button size="large" type="primary" html-type="submit" class="login-form-button" style="width: 100%">
-                登录
+                登入
             </a-button><br />
         </a-form-item>
         <a-form-item>
-            还没有账号？<a @click="toRegister"> 立即注册</a>
+            尚未註冊？<a @click="toRegister"> 立即註冊</a>
         </a-form-item>
     </a-form>
 </template>
