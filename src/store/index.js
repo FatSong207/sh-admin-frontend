@@ -1,11 +1,15 @@
 import { createPinia, defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const pinia = createPinia();
+const store = createPinia();
 
-export const useSpinStore = defineStore('spin', () => {
-  const spinning = ref(true)
-  return { spinning }
-})
+// export const useSpinStore = defineStore('spin', () => {
+//   const spinning = ref(true)
+//   return { spinning }
+// })
 
-export const spinStore = useSpinStore(pinia)
+// export const spinStore = useSpinStore(pinia)
+
+export{
+  store
+}

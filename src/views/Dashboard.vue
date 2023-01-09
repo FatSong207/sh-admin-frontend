@@ -122,45 +122,45 @@ export default {
             let param = {
                 daysRange: daysRange.value
             }
-            getSummary(param).then((res) => {
-                if (res.data.code == 0) {
-                    data.customers = res.data.data.customers
-                    data.contracts = res.data.data.contracts
-                    data.contractAmount = res.data.data.contractAmount
-                    data.products = res.data.data.products
-                    echarts.init(document.getElementById("main")).setOption({
-                        xAxis: {
-                            type: 'category',
-                            data: res.data.data.date,
-                        },
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {
-                                type: 'shadow'
-                            }
-                        },
-                        legend: {
-                            data: ['实际完成金额'],
-                            orient: 'vertical',
-                            bottom: 10,
-                        },
-                        yAxis: {
-                            type: 'value',
-                        },
-                        series: [
-                            {
-                                name: '实际完成金额',
-                                data: res.data.data.amount,
-                                type: 'line',
-                                smooth: true,
-                                lineStyle: {
-                                    width: 3
-                                }
-                            }
-                        ]
-                    })
-                }
-            })
+            // getSummary(param).then((res) => {
+            //     if (res.data.code == 0) {
+            //         data.customers = res.data.data.customers
+            //         data.contracts = res.data.data.contracts
+            //         data.contractAmount = res.data.data.contractAmount
+            //         data.products = res.data.data.products
+            //         echarts.init(document.getElementById("main")).setOption({
+            //             xAxis: {
+            //                 type: 'category',
+            //                 data: res.data.data.date,
+            //             },
+            //             tooltip: {
+            //                 trigger: 'axis',
+            //                 axisPointer: {
+            //                     type: 'shadow'
+            //                 }
+            //             },
+            //             legend: {
+            //                 data: ['实际完成金额'],
+            //                 orient: 'vertical',
+            //                 bottom: 10,
+            //             },
+            //             yAxis: {
+            //                 type: 'value',
+            //             },
+            //             series: [
+            //                 {
+            //                     name: '实际完成金额',
+            //                     data: res.data.data.amount,
+            //                     type: 'line',
+            //                     smooth: true,
+            //                     lineStyle: {
+            //                         width: 3
+            //                     }
+            //                 }
+            //             ]
+            //         })
+            //     }
+            // })
         }
 
         // 查看用户系统版本

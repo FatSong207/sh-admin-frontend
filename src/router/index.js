@@ -1,6 +1,6 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
+import { createRouter, createWebHashHistory } from 'vue-router'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 import Index from '../views/Index.vue'
 import Home from '../views/Home.vue'
 import Error from '../views/Error.vue'
@@ -13,6 +13,7 @@ import Contract from '../views/Contract.vue'
 import Product from '../views/Product.vue'
 import Subscribe from '../views/Subscribe.vue'
 import Result from '../views/Result.vue'
+import { useUserStore } from '../store/user'
 
 const routes = [
   {
@@ -22,17 +23,17 @@ const routes = [
     children: [
       {
         path: '/login',
-        component: Login,
+        component: Login
       },
       {
         path: '/register',
-        component: Register,
+        component: Register
       },
       {
         path: '/pass',
-        component: Pass,
-      },
-    ],
+        component: Pass
+      }
+    ]
   },
   {
     path: '/home',
@@ -42,50 +43,53 @@ const routes = [
       {
         path: '/dashboard',
         name: 'dashboard',
-        component: Dashboard,
+        component: Dashboard
       },
       {
         path: '/customer',
         name: 'customer',
-        component: Customer,
+        component: Customer
       },
       {
         path: '/contract',
         name: 'contract',
-        component: Contract,
+        component: Contract
       },
       {
         path: '/product',
         name: 'product',
-        component: Product,
+        component: Product
       },
       {
         path: '/subscribe',
         name: 'subscribe',
-        component: Subscribe,
+        component: Subscribe
       },
       {
         path: '/result',
         name: 'result',
-        component: Result,
+        component: Result
       }
-    ],
+    ]
   },
   {
     path: '/error',
     name: 'error',
-    component: Error,
-  },
+    component: Error
+  }
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(), routes
+  history: createWebHashHistory(),
+  routes
 })
 
-NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false });
+NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   NProgress.start() // 进度条开始
+  const userStore = useUserStore()
+  await userStore.GetUserInfo() //路由變化時透過token獲取用戶信息
   next()
 })
 
@@ -93,4 +97,4 @@ router.afterEach(() => {
   NProgress.done() // 进度条结束
 })
 
-export default router;
+export default router

@@ -2,9 +2,10 @@
   <a-layout style="min-height: 100vh">
     <a-layout-sider width="180" class="sider" v-model:collapsed="collapsed" :trigger="null" collapsible>
       <div class="logo">
-        <div><img src="../assets/logo.svg" style="width: 32px;height: 32px;filter: drop-shadow(2px 2px 6px #79bbff);" />
+        <div><img src="../assets/shlogo3.svg"
+            style="width: 32px;height: 32px;filter: drop-shadow(2px 2px 6px #79bbff);" />
         </div>
-        <div v-if="collapsed == false" class="title"><b>Z</b>O<b style="color: #1283FF;">C</b>RM</div>
+        <div v-if="collapsed == false" class="title">SH<b style="color: #1283FF;">ADM</b></div>
       </div>
       <a-menu style="border-right: none;" v-model:selectedKeys="selectedKeys" mode="inline">
         <a-menu-item :key="item.key" v-for="item in menuItem">
@@ -38,7 +39,7 @@
           </a-tooltip>
           <!-- 个人信息 -->
           <a-dropdown :trigger="['click']">
-            <a-avatar @click="toMine" class="avatar" :size="28">U</a-avatar>
+            <a-avatar @click="toMine" class="avatar" :size="28">{{ p.first }}</a-avatar>
             <template #overlay>
               <a-menu>
                 <a-menu-item key="0">
@@ -107,7 +108,7 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue';
 import { getUserInfo, updateMail, getVerifyCode, userDelete, userLogout } from '../api/user';
@@ -115,8 +116,10 @@ import { DashboardOutlined, SmileOutlined, MehOutlined, ShoppingOutlined } from 
 import { CrownOutlined, MenuUnfoldOutlined, MenuFoldOutlined, QuestionCircleFilled } from '@ant-design/icons-vue';
 import { SmileFilled, BellFilled, MailOutlined, ClearOutlined } from '@ant-design/icons-vue';
 import { LogoutOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { useUserStore } from '../store/user';
 
 export default {
+  name: 'Home',
   components: {
     DashboardOutlined,
     SmileOutlined,
@@ -187,6 +190,14 @@ export default {
 
     const selectedKeys = ref(['dashboard'])
     const collapsed = ref(false)
+
+    const userStore = useUserStore()
+    const p = reactive({
+
+    })
+    p.first = computed(() => {
+      return userStore.userInfo.Name.charAt(0)
+    })
 
     const router = useRouter()
 
@@ -316,6 +327,7 @@ export default {
       loading,
       disabled,
       buttonText,
+      p,
       userInfo,
       onDelete,
       onLogout,
@@ -378,7 +390,7 @@ export default {
 }
 
 .title {
-  font-size: 25px;
+  font-size: 20px;
   color: rgba(31, 31, 31, 0.85);
   font-weight: 620;
   margin-left: 10px;

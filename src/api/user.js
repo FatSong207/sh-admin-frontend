@@ -1,11 +1,19 @@
 import request from '../axios/index'
 
-// 用户登录
+// 登入
 export function userLogin(param) {
     return request({
 		url: '/login',
 		method: 'post',
 		data: param,
+	})
+}
+
+//獲取用戶信息
+export function getUserInfo() {
+    return request({
+		url: '/user/info',
+		method: 'get',
 	})
 }
 
@@ -63,14 +71,14 @@ export function userDelete(param) {
 	})
 }
 
-// 获取用户信息
-export function getUserInfo(param) {
-    return request({
-		url: '/user/info',
-		method: 'get',
-		params: param,
-	})
-}
+// // 获取用户信息
+// export function getUserInfo(param) {
+//     return request({
+// 		url: '/user/info',
+// 		method: 'get',
+// 		params: param,
+// 	})
+// }
 
 // 订阅个人版
 export function userBuy(param) {
