@@ -1,6 +1,5 @@
 <template>
-    <a-form :model="formData" name="normal_login" class="login-form" @finish="onLogin"
-        @finishFailed="onLoginFailed">
+    <a-form :model="formData" name="normal_login" class="login-form" @finish="onLogin" @finishFailed="onLoginFailed">
         <a-form-item name="email" :rules="[{ required: true, message: '請輸入EMail!' }]">
             <a-input v-model:value="formData.email" size="large" placeholder="EMail">
                 <template #prefix>
@@ -36,7 +35,7 @@
 import { reactive } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router'
-import {useUserStore} from '../store/user'
+import { useUserStore } from '../store/user'
 import { userLogin } from '../api/user';
 import { message } from 'ant-design-vue';
 
@@ -55,13 +54,13 @@ export default {
             remember: true,
         });
         const userStore = useUserStore()
-        const onLogin = async() => {
+        const onLogin = async () => {
             let param = {
                 email: formData.email,
                 password: formData.password
             }
             await userStore.Login(param)
-            
+
             // userLogin(param).then((res) => {
             //     if (res.data.code == 0) {
             //         localStorage.setItem('uid', res.data.data.uid)
@@ -83,12 +82,12 @@ export default {
 
         // 忘记密码
         const forgotPass = () => {
-            router.push("/pass")
+            router.push({ name: 'Pass' })
         }
 
         // 用户注册
         const toRegister = () => {
-            router.push("/register")
+            router.push({ name: 'Register' })
         }
 
         return {

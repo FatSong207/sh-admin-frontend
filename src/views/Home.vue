@@ -7,11 +7,26 @@
         </div>
         <div v-if="collapsed == false" class="title">SH<b style="color: #1283FF;">ADM</b></div>
       </div>
-      <a-menu style="border-right: none;" v-model:selectedKeys="selectedKeys" mode="inline">
-        <a-menu-item :key="item.key" v-for="item in menuItem">
-          <router-link :to="item.to">
-            <component :is="item.icon" />
-            <span>{{ item.name }}</span>
+      <a-menu style="border-right: none; height: 100%;" :selectedKeys="[$route.path]" mode="inline" theme="light">
+        <a-sub-menu key="sub1">
+          <template #icon>
+            <QuestionCircleFilled />
+          </template>
+          <template #title>
+            儀表盤
+          </template>
+          <a-menu-item-group>
+            <template #title>
+              item1
+            </template>
+            <a-menu-item key="1">option 1</a-menu-item>
+            <a-menu-item key="2">option 2</a-menu-item>
+          </a-menu-item-group>
+        </a-sub-menu>
+        <a-menu-item :key="item.path" v-for="item in menuItem">
+          <router-link v-if="!item.hidden" :to="{ name: item.name }">
+            <component :is="item.meta.icon" />
+            <span>{{ item.meta.title }}</span>
           </router-link>
         </a-menu-item>
       </a-menu>
@@ -39,7 +54,7 @@
           </a-tooltip>
           <!-- 个人信息 -->
           <a-dropdown :trigger="['click']">
-            <a-avatar @click="toMine" class="avatar" :size="28">{{ p.first }}</a-avatar>
+            <a-avatar class="avatar" :size="28">{{ p.first }}</a-avatar>
             <template #overlay>
               <a-menu>
                 <a-menu-item key="0">
@@ -97,18 +112,18 @@
         </a-modal>
       </a-layout-header>
       <a-layout-content :style="{ margin: '10px', padding: '18px 18px 12px 18px', background: '#fff' }">
-        <transition name="fade">
-          <router-view v-slot="{ Component }">
+        <router-view v-slot="{ Component }">
+          <transition name="fade-transform" mode="out-in">
             <component :is="Component" />
-          </router-view>
-        </transition>
+          </transition>
+        </router-view>
       </a-layout-content>
     </a-layout>
   </a-layout>
 </template>
 
 <script>
-import { reactive, ref, onMounted, computed } from 'vue';
+import { reactive, ref, onMounted, computed, } from 'vue';
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue';
 import { getUserInfo, updateMail, getVerifyCode, userDelete, userLogout } from '../api/user';
@@ -117,6 +132,7 @@ import { CrownOutlined, MenuUnfoldOutlined, MenuFoldOutlined, QuestionCircleFill
 import { SmileFilled, BellFilled, MailOutlined, ClearOutlined } from '@ant-design/icons-vue';
 import { LogoutOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { useUserStore } from '../store/user';
+import { useRouterStore } from '../store/router'
 
 export default {
   name: 'Home',
@@ -137,33 +153,10 @@ export default {
     ExclamationCircleOutlined,
   },
   setup() {
-    // 菜单选项
-    const menuItem = reactive([{
-      key: "dashboard",
-      to: "/dashboard",
-      icon: "dashboard-outlined",
-      name: "仪表盘"
-    }, {
-      key: "customer",
-      to: "/customer",
-      icon: "smile-outlined",
-      name: "客户"
-    }, {
-      key: "contract",
-      to: "/contract",
-      icon: "meh-outlined",
-      name: "合同"
-    }, {
-      key: "product",
-      to: "/product",
-      icon: "shopping-outlined",
-      name: "产品"
-    }, {
-      key: "subscribe",
-      to: "/subscribe",
-      icon: "crown-outlined",
-      name: "订阅"
-    }])
+
+    const userStore = useUserStore()
+    const routerStore = useRouterStore()
+    const menuItem = reactive(routerStore.asyncRouters[0].children)
 
     // 表单校验
     const rules = {
@@ -188,10 +181,7 @@ export default {
       }],
     };
 
-    const selectedKeys = ref(['dashboard'])
     const collapsed = ref(false)
-
-    const userStore = useUserStore()
     const p = reactive({
 
     })
@@ -302,9 +292,10 @@ export default {
 
     // 点击退出账号
     const onLogout = () => {
-      userLogout().then((res) => {
-        if (res.data.code == 0) { router.push('/') }
-      })
+      userStore.LogOut()
+      // userLogout().then((res) => {
+      //   if (res.data.code == 0) { router.push('/') }
+      // })
     }
 
     // 点击取消按钮
@@ -318,7 +309,6 @@ export default {
     return {
       menuItem,
       rules,
-      selectedKeys,
       collapsed,
       user,
       visible,

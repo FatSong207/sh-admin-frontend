@@ -35,7 +35,7 @@ request.interceptors.request.use(config => {
 
 request.interceptors.response.use(
   response => {
-    console.log(response)
+    // console.log(response)
     if (response.data.code == 1) {
       message.error('服務器異常！')
     } else if (response.data.code === 10041) {

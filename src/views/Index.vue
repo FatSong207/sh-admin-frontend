@@ -7,11 +7,11 @@
         </div>
         <div class="content">
             <div class="main">
-                <transition name="fade">
-                    <router-view v-slot="{ Component }">
+                <router-view v-slot="{ Component }">
+                    <transition name="fade-transform" mode="out-in">
                         <component :is="Component" />
-                    </router-view>
-                </transition>
+                    </transition>
+                </router-view>
             </div>
             <div class="footer">
                 <div class="links">
