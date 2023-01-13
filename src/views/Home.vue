@@ -8,7 +8,10 @@
         <div v-if="collapsed == false" class="title">SH<b style="color: #1283FF;">ADM</b></div>
       </div>
       <a-menu style="border-right: none; height: 100%;" :selectedKeys="[$route.path]" mode="inline" theme="light">
-        <a-sub-menu key="sub1">
+        <template v-for="item in menuItem">
+          <aside-component v-if="!item.hidden" :key="item.path" :is-collapse="collapsed" :router-info="item" />
+        </template>
+        <!-- <a-sub-menu key="sub1">
           <template #icon>
             <QuestionCircleFilled />
           </template>
@@ -22,13 +25,14 @@
             <a-menu-item key="1">option 1</a-menu-item>
             <a-menu-item key="2">option 2</a-menu-item>
           </a-menu-item-group>
-        </a-sub-menu>
-        <a-menu-item :key="item.path" v-for="item in menuItem">
+        </a-sub-menu> -->
+
+        <!-- <a-menu-item :key="item.path" v-for="item in menuItem">
           <router-link v-if="!item.hidden" :to="{ name: item.name }">
             <component :is="item.meta.icon" />
             <span>{{ item.meta.title }}</span>
           </router-link>
-        </a-menu-item>
+        </a-menu-item> -->
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -133,10 +137,12 @@ import { SmileFilled, BellFilled, MailOutlined, ClearOutlined } from '@ant-desig
 import { LogoutOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { useUserStore } from '../store/user';
 import { useRouterStore } from '../store/router'
+import AsideComponent from './aside/asideComponent/index.vue'
 
 export default {
   name: 'Home',
   components: {
+    AsideComponent,
     DashboardOutlined,
     SmileOutlined,
     MehOutlined,

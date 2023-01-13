@@ -489,17 +489,17 @@ export default {
             getContractList()
         }
         const getContractList = () => {
-            let param = {
-                id: parseInt(keyWord.value == '' ? '0' : keyWord.value),
-                pageNum: pagination.current,
-                pageSize: pagination.pageSize
-            }
-            queryContractList(param).then((res) => {
-                if (res.data.code == 0) {
-                    pagination.total = res.data.data.total
-                    data.contractList = res.data.data.list
-                }
-            })
+            // let param = {
+            //     id: parseInt(keyWord.value == '' ? '0' : keyWord.value),
+            //     pageNum: pagination.current,
+            //     pageSize: pagination.pageSize
+            // }
+            // queryContractList(param).then((res) => {
+            //     if (res.data.code == 0) {
+            //         pagination.total = res.data.data.total
+            //         data.contractList = res.data.data.list
+            //     }
+            // })
         }
 
         // 点击添加产品
