@@ -15,7 +15,7 @@ const formatRouter = (routes, routeMap) => {
     routes.forEach(item => {
       if (
         (!item.children || item.children.every(ch => ch.hidden)) &&
-        item.name !== '404' &&
+        (item.name !== '404' || item.name !== '403') &&
         !item.hidden
       ) {
         routerListArr.push({ label: item.meta.title, value: item.name })
@@ -53,13 +53,24 @@ export const useRouterStore = defineStore('router', () => {
     const asyncRouter = asyncRouterRes.data.data
     // console.log(asyncRouter, 'asyncRouter')
     asyncRouter &&
-      asyncRouter.push({
-        path: '*',
-        redirect: '/404',
-        meta: {
-          hidden: true
+      asyncRouter.push(
+        {
+          path: '*',
+          redirect: '/404',
+          hidden: true,
+          meta: {
+            hidden: true
+          }
+        },
+        {
+          path: '*',
+          redirect: '/403',
+          hidden: true,
+          meta: {
+            hidden: true
+          }
         }
-      })
+      )
     formatRouter(asyncRouter, routeMap)
     baseRouter[0].children = asyncRouter
     baseRouter.push({

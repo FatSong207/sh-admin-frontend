@@ -48,6 +48,11 @@ request.interceptors.response.use(
       }, 500)
       return response
     } else if (response.data.code != 0) {
+      if (response.data.code == 403) {
+        // console.log('403!')
+        router.push('/403')
+        return response
+      }
       message.error(response.data.message)
       return response
     }

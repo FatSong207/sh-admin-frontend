@@ -7,3 +7,11 @@ export function getUserMenuTree() {
 		method: 'get',
 	})
 }
+
+//獲取所有路由，用於功能模塊下的樹狀table顯示
+export function getAllMenuTree() {
+    return request({
+		url: '/menu',
+		method: 'get',
+	})
+}

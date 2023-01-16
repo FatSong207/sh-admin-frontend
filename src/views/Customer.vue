@@ -11,9 +11,9 @@
             <a-button type="primary" @click="onCreate">新建</a-button>
         </a-space>
 
-        <a-table rowKey="id" :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
-            :columns="columns" :data-source="data.customerList"
-            :pagination="{ current: pagination.current, pageSize: pagination.pageSize, total: pagination.total, onChange: onPagination }"
+        <a-table rowKey="id" :row-selection="{ selectedRowKeys: data.selectedIds, onChange: onSelectChange }"
+            :columns="columns" :data-source="data.customerList" :loading="loading"
+            :pagination="{ current: pagination.current, showSizeChanger: true, pageSize: pagination.pageSize, pageSizeOptions: ['3', '10', '20', '30'], total: pagination.total, onChange: onPagination }"
             :scroll="{ y: '59vh' }" class="ant-table-striped"
             :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)" bordered>
             <template #bodyCell="{ column, text, record }">
@@ -208,6 +208,7 @@ export default {
             selectedIds: []
         })
 
+        const loading = ref(false)
 
         const onSelectChange = selectedRowKeys => {
             data.selectedIds = selectedRowKeys
@@ -344,8 +345,10 @@ export default {
         }
 
         // 分页查询客户列表
-        const onPagination = (page) => {
+        const onPagination = (page, pageSize) => {
+            console.log(page, pageSize)
             pagination.current = page
+            pagination.pageSize = pageSize
             getCustomerList()
         }
 
@@ -353,6 +356,7 @@ export default {
         onMounted(() => { getCustomerList() })
 
         const getCustomerList = () => {
+            loading.value = true
             let param = {
                 name: keyWord.value,
                 pageNum: pagination.current,
@@ -363,6 +367,8 @@ export default {
                     pagination.total = res.data.data.total
                     data.customerList = res.data.data.list
                 }
+            }).finally(() => {
+                loading.value = false
             })
         }
 
@@ -381,6 +387,7 @@ export default {
         return {
             data,
             columns,
+            loading,
             rules,
             onSearch,
             visible,

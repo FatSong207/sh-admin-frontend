@@ -30,7 +30,7 @@ export function deleteCustomer(param) {
 // 查询客户列表
 export function queryCustomerList(param) {
     return request({
-		url: '/customer/list',
+		url: '/customer',
 		method: 'get',
 		params: param,
 	})

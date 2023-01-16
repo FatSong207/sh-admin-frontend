@@ -1,7 +1,9 @@
 <template>
   <a-menu-item :key="routerInfo.path" :index="routerInfo.name">
     <template v-if="isCollapse">
-      <component :is="$antIcons[routerInfo.meta.icon]" />
+      <router-link :to="{ name: routerInfo.name }">
+        <component :is="$antIcons[routerInfo.meta.icon]" />
+      </router-link>
     </template>
     <template v-else>
       <div class="gva-menu-item">

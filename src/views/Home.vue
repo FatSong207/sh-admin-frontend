@@ -118,7 +118,9 @@
       <a-layout-content :style="{ margin: '10px', padding: '18px 18px 12px 18px', background: '#fff' }">
         <router-view v-slot="{ Component }">
           <transition name="fade-transform" mode="out-in">
-            <component :is="Component" />
+            <keep-alive>
+              <component :is="Component" />
+            </keep-alive>
           </transition>
         </router-view>
       </a-layout-content>
