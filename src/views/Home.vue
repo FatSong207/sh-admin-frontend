@@ -7,32 +7,11 @@
         </div>
         <div v-if="collapsed == false" class="title">SH<b style="color: #1283FF;">ADM</b></div>
       </div>
-      <a-menu style="border-right: none; height: 100%;" :selectedKeys="[$route.path]" mode="inline" theme="light">
+      <a-menu style="border-right: none; height: 100%;" :selectedKeys="[$route.path]" mode="inline" theme="light"
+        :open-keys="openKeys" @openChange="onOpenChange">
         <template v-for="item in menuItem">
           <aside-component v-if="!item.hidden" :key="item.path" :is-collapse="collapsed" :router-info="item" />
         </template>
-        <!-- <a-sub-menu key="sub1">
-          <template #icon>
-            <QuestionCircleFilled />
-          </template>
-          <template #title>
-            儀表盤
-          </template>
-          <a-menu-item-group>
-            <template #title>
-              item1
-            </template>
-            <a-menu-item key="1">option 1</a-menu-item>
-            <a-menu-item key="2">option 2</a-menu-item>
-          </a-menu-item-group>
-        </a-sub-menu> -->
-
-        <!-- <a-menu-item :key="item.path" v-for="item in menuItem">
-          <router-link v-if="!item.hidden" :to="{ name: item.name }">
-            <component :is="item.meta.icon" />
-            <span>{{ item.meta.title }}</span>
-          </router-link>
-        </a-menu-item> -->
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -57,24 +36,24 @@
             </a-button>
           </a-tooltip>
           <!-- 个人信息 -->
-          <a-dropdown :trigger="['click']">
+          <a-dropdown>
             <a-avatar class="avatar" :size="28">{{ p.first }}</a-avatar>
             <template #overlay>
               <a-menu>
-                <a-menu-item key="0">
+                <!-- <a-menu-item key="0">
                   <a @click="onMail">
                     <MailOutlined /> 修改邮箱
                   </a>
-                </a-menu-item>
-                <a-menu-item key="1">
+                </a-menu-item> -->
+                <!-- <a-menu-item key="1">
                   <a @click="onDelete">
                     <ClearOutlined /> 注销账号
                   </a>
-                </a-menu-item>
+                </a-menu-item> -->
                 <a-menu-divider />
                 <a-menu-item key="2">
                   <a @click="onLogout">
-                    <LogoutOutlined /> 退出账号
+                    <LogoutOutlined /> 登出
                   </a>
                 </a-menu-item>
               </a-menu>
@@ -82,7 +61,7 @@
           </a-dropdown>
         </div>
         <!-- 修改邮箱弹出框 -->
-        <a-modal v-model:visible="visible" title="修改邮箱" @ok="onSave" @cancel="onCancel" cancelText="取消" okText="保存"
+        <!-- <a-modal v-model:visible="visible" title="修改邮箱" @ok="onSave" @cancel="onCancel" cancelText="取消" okText="保存"
           width="450px" style="top: 120px">
           <a-form :model="user" layout="vertical" @finish="onSubmit" :rules="rules">
             <a-form-item name="email">
@@ -98,9 +77,9 @@
               <a-input v-model:value="user.newEmail" size="large" placeholder="新邮箱" />
             </a-form-item>
           </a-form>
-        </a-modal>
+        </a-modal> -->
         <!-- 注销账号弹出框 -->
-        <a-modal v-model:visible="delUserVisible" title="注销账号" @ok="onConfirm" @cancel="onCancel" cancelText="取消"
+        <!-- <a-modal v-model:visible="delUserVisible" title="注销账号" @ok="onConfirm" @cancel="onCancel" cancelText="取消"
           okText="注销" width="450px" style="top: 120px">
           <a-form :model="user" layout="vertical" @finish="onSubmit" :rules="rules">
             <a-form-item name="email">
@@ -113,9 +92,10 @@
                 {{ buttonText }}</a-button>
             </a-form-item>
           </a-form>
-        </a-modal>
+        </a-modal> -->
       </a-layout-header>
-      <a-layout-content :style="{ margin: '10px', padding: '18px 18px 12px 18px', background: '#fff' }">
+      <a-layout-content :style="{ margin: '10px', padding: '18px 18px 18px 18px', background: '#fff', }"
+        class="content">
         <router-view v-slot="{ Component }">
           <transition name="fade-transform" mode="out-in">
             <keep-alive>
@@ -129,7 +109,7 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted, computed, } from 'vue';
+import { reactive, ref, onMounted, computed, toRefs } from 'vue';
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue';
 import { getUserInfo, updateMail, getVerifyCode, userDelete, userLogout } from '../api/user';
@@ -197,6 +177,12 @@ export default {
       return userStore.userInfo.Name.charAt(0)
     })
 
+    const state = reactive({
+      rootSubmenuKeys: [],
+      openKeys: [],
+      selectedKeys: [],
+    });
+
     const router = useRouter()
 
     const user = reactive({
@@ -215,7 +201,14 @@ export default {
     const buttonText = ref('获取验证码')
 
     // 初始化数据
-    onMounted(() => { userInfo() })
+    onMounted(() => {
+      userInfo()
+      let tempArr = []
+      menuItem.filter(x => x.parentId === "0").forEach(r => {
+        tempArr.push(r.name)
+      });
+      state.rootSubmenuKeys = tempArr
+    })
 
     // 获取用户信息
     const userInfo = () => {
@@ -314,7 +307,17 @@ export default {
       delUserVisible.value = false
     };
 
+    const onOpenChange = openKeys => {
+      const latestOpenKey = openKeys.find(key => state.openKeys.indexOf(key) === -1);
+      if (state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+        state.openKeys = openKeys;
+      } else {
+        state.openKeys = latestOpenKey ? [latestOpenKey] : [];
+      }
+    };
+
     return {
+      ...toRefs(state),
       menuItem,
       rules,
       collapsed,
@@ -335,6 +338,7 @@ export default {
       onConfirm,
       onCancel,
       onUpgrade,
+      onOpenChange,
     };
   },
 }
@@ -344,6 +348,7 @@ export default {
 .sider {
   background: #fff;
   border-right: 0.5px solid #F0F2F5;
+  box-shadow: 0.5px 0.5px 5px #c2c5c9;
 }
 
 .header {
@@ -352,6 +357,12 @@ export default {
   align-items: center;
   justify-content: space-between;
   background: #fff;
+  box-shadow: 0 2px 2.5px 0 rgb(0 0 0/20%);
+}
+
+.content {
+  box-shadow: 0 2px 12px 0 rgb(0 0 0/10%);
+  border-radius: 5px;
 }
 
 .trigger {
@@ -374,8 +385,8 @@ export default {
 }
 
 .avatar {
-  color: #f56a00;
-  background-color: #fde3cf;
+  color: #fff;
+  background-color: #87d068;
   cursor: pointer;
   margin-left: 10px;
 }

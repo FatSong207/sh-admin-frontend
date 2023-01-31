@@ -45,7 +45,7 @@ export default {
                 if (jumpTime.value) {
                     jumpTime.value--
                 } else {
-                    router.push({ name: 'Home' })
+                    router.push({ path: '/' })
                     // this.$router.push({ path: '/' })
                     // this.$store.dispatch('tabsBar/delOthersRoutes', {
                     //     path: '/'

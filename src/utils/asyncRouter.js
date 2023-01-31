@@ -1,7 +1,7 @@
 const viewModules = import.meta.glob('../views/*.vue')
 
 export const asyncRouterHandle = asyncRouter => {
-  console.log(viewModules)
+  // console.log(viewModules)
   asyncRouter.forEach(item => {
     // console.log('item', item)
     if (item.component) {

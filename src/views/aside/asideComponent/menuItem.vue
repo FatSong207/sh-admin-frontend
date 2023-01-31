@@ -3,6 +3,7 @@
     <template v-if="isCollapse">
       <router-link :to="{ name: routerInfo.name }">
         <component :is="$antIcons[routerInfo.meta.icon]" />
+        <span class="gva-menu-item-title">{{ routerInfo.meta.title }}</span>
       </router-link>
     </template>
     <template v-else>
@@ -12,7 +13,7 @@
         </el-icon> -->
         <router-link :to="{ name: routerInfo.name }">
           <component :is="$antIcons[routerInfo.meta.icon]" />
-          <span>{{ routerInfo.meta.title }}</span>
+          <span class="gva-menu-item-title">{{ routerInfo.meta.title }}</span>
         </router-link>
         <!-- <span class="gva-menu-item-title">{{ routerInfo.meta.title }}</span> -->
       </div>

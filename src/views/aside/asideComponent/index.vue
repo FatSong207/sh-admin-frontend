@@ -30,7 +30,7 @@ const props = defineProps({
 })
 
 const menuComponent = computed(() => {
-  if (props.routerInfo.children && props.routerInfo.children.filter(item => !item.hidden).length) {
+  if ((props.routerInfo.children && props.routerInfo.children.filter(item => !item.hidden).length) || props.routerInfo.menuType === 1) {
     return AsyncSubmenu
   } else {
     return MenuItem

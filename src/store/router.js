@@ -38,7 +38,7 @@ export const useRouterStore = defineStore('router', () => {
   const SetAsyncRouter = async () => {
     const baseRouter = [
       {
-        path: '/home',
+        path: '/',
         name: 'Home',
         component: 'views/Home.vue',
         redirect: '/dashboard',
@@ -46,7 +46,7 @@ export const useRouterStore = defineStore('router', () => {
           title: '底層'
         },
         children: []
-      }
+      },
     ]
     const asyncRouterRes = await getUserMenuTree()
     // console.log('asyncRouterRes123', asyncRouterRes)

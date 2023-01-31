@@ -22,7 +22,7 @@ const getRouter = async userStore => {
 
 const routes = [
   {
-    path: '/',
+    path: '/login',
     component: Index,
     redirect: '/login',
     children: [
@@ -67,10 +67,12 @@ NProgress.configure({
 })
 
 router.beforeEach(async (to, from) => {
+  // console.log(to);
   NProgress.start()
 
   const userStore = useUserStore()
   to.meta.matched = [...to.matched]
+  // console.log(to.meta.matched);
   const token = userStore.token
   if (whiteList.indexOf(to.name) > -1) {
     if (token) {
@@ -110,11 +112,11 @@ router.beforeEach(async (to, from) => {
           }
         }
       } else {
-        if (to.matched.length) {
-          return true
-        } else {
-          return { path: '/layout/404' }
-        }
+        // if (to.matched.length) {
+        //   return true
+        // } else {
+        //   return { path: '/layout/404' }
+        // }
       }
     }
     // 不在白名单中并且未登录的时候

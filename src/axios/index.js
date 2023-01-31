@@ -15,7 +15,7 @@ switch (host) {
 }
 
 const request = axios.create({
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
   }
@@ -38,7 +38,7 @@ request.interceptors.response.use(
     // console.log(response)
     if (response.data.code == 1) {
       message.error('服務器異常！')
-    } else if (response.data.code === 10041) {
+    } else if (response.data.code === 10041 || response.data.code === 4) {
       notification['error']({
         message: 'Token錯誤',
         description: '請重新登入!'

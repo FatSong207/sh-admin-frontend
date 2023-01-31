@@ -1,5 +1,5 @@
 <template>
-  <a-sub-menu ref="subMenu" :index="routerInfo.name">
+  <a-sub-menu ref="subMenu" :key="routerInfo.name" :index="routerInfo.name">
     <template #title>
       <div v-if="!isCollapse">
         <component :is="$antIcons[routerInfo.meta.icon]" />
