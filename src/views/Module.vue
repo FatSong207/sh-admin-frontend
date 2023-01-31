@@ -237,7 +237,7 @@ export default {
             data.modalVisible = true;
         };
         const onEdit = (record) => {
-            // console.log(record)
+            // console.log(record).
             GetById(record.Id).then(res => {
                 console.log(res);
                 if (res.data.data.parentIds) {
