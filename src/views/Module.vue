@@ -25,6 +25,13 @@
                         <!-- {{ record.menuType === 1 ? '功能模組' : record.menuType === 2 ? '菜單' : '' }} -->
                     </span>
                 </template>
+                <template v-if="column.key === 'hidden'">
+                    <span>
+                        <a-tag v-if="record.hidden" color="default">隱藏</a-tag>
+                        <a-tag v-if="!record.hidden" color="success">啟用</a-tag>
+                        <!-- {{ record.menuType === 1 ? '功能模組' : record.menuType === 2 ? '菜單' : '' }} -->
+                    </span>
+                </template>
             </template>
         </a-table>
         <a-modal v-model:visible="data.modalVisible" :title="data.modalTitle" @ok="onSave" @cancel="onCancel"
@@ -117,7 +124,7 @@
 import { message } from 'ant-design-vue';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { useRouterStore } from '../store/router'
-import { getAllMenuTree, getAllMenuTreeCas, Insert, GetById } from '../api/menu'
+import { getAllMenuTree, getAllMenuTreeCas, Insert, Update, GetById } from '../api/menu'
 import antdIcon from '../assets/antdicon'
 import { connect } from 'echarts';
 
@@ -128,14 +135,6 @@ export default {
         const routerStore = useRouterStore();
         const data = reactive({
             keyWord: "",
-            parentId: [],
-            menuTypeOptions: [{
-                value: 1,
-                label: "功能模組"
-            }, {
-                value: 2,
-                label: "菜單"
-            }],
             editForm: {
                 title: "",
                 name: "",
@@ -158,17 +157,32 @@ export default {
                 sort: [{ required: true, message: "請輸入排序", trigger: "change" }],
                 icon: [{ required: true, message: "請選擇圖示", trigger: "change" }],
             },
+            parentId: [],
+            menuTypeOptions: [{
+                value: 1,
+                label: "功能模組"
+            }, {
+                value: 2,
+                label: "菜單"
+            }],
             columns: [
                 {
                     title: "名稱",
                     dataIndex: ["meta", "title"],
                     key: "title",
-                    width: 200,
+                    width: 230,
                 },
                 {
                     title: "類型",
                     dataIndex: 'menuType',
                     key: "menuType",
+                    align: "center",
+                    width: 120,
+                },
+                {
+                    title: "狀態",
+                    dataIndex: 'hidden',
+                    key: "hidden",
                     align: "center",
                     width: 120,
                 },
@@ -198,6 +212,7 @@ export default {
             modalVisible: false,
             loading: false,
             modalTitle: "",
+            action: "",
             iconSelect: antdIcon
         });
         const editFormRef = ref();
@@ -229,15 +244,17 @@ export default {
             },
         });
         const onSearch = () => {
-            // message.info('onSearch')
             getAllMenu();
         };
         const onCreate = () => {
+            data.action = 1
             data.modalTitle = "新增";
             data.modalVisible = true;
         };
         const onEdit = (record) => {
-            // console.log(record).
+            data.action = 2
+            data.modalVisible = true;
+            data.modalTitle = "編輯";
             GetById(record.Id).then(res => {
                 console.log(res);
                 if (res.data.data.parentIds) {
@@ -245,6 +262,7 @@ export default {
                     console.log(p);
                     data.parentId = p;
                 }
+                data.editForm.Id = record.Id
                 data.editForm.title = res.data.data.title;
                 data.editForm.icon = res.data.data.icon;
                 data.editForm.name = res.data.data.name;
@@ -255,8 +273,6 @@ export default {
                 data.editForm.sort = res.data.data.sort;
                 data.editForm.hidden = res.data.data.hidden;
                 data.editForm.meta = {};
-                data.modalVisible = true;
-                data.modalTitle = "編輯";
             });
         };
         const onSave = () => {
@@ -267,12 +283,27 @@ export default {
                 }
                 data.editForm.meta.title = data.editForm.title;
                 data.editForm.meta.icon = data.editForm.icon;
-                Insert(data.editForm).then(res => {
-                    reseteditForm();
-                    data.modalVisible = false;
-                    getAllMenu();
-                });
-                message.info("操作成功！");
+                switch (data.action) {
+                    case 1:
+                        Insert(data.editForm).then(res => {
+                            reseteditForm();
+                            data.modalVisible = false;
+                            getAllMenu();
+                        });
+                        break;
+                    case 2:
+                        Update(data.editForm).then(res=>{
+                            console.log(res.data.data)
+                            reseteditForm();
+                            data.modalVisible = false;
+                            getAllMenu();
+                        })
+                        break;
+                    default:
+                        message.error('獲取action失敗，請重新整理')
+                        break;
+                }
+                // message.info("操作成功！");
             });
         };
         const onCancel = () => {
@@ -323,7 +354,7 @@ export default {
                 message.error('請先輸入模塊名稱(英)')
                 return
             }
-            if (!data.editForm.parentId) {
+            if (!data.editForm.parentId || data.editForm.parentId === "0") {
                 data.editForm.path = "/" + data.editForm.name
             } else {
                 let res = ""

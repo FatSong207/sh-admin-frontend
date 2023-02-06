@@ -4,13 +4,15 @@ import { message, notification } from 'ant-design-vue'
 import { useUserStore } from '../store/user'
 
 const host = window.location.hostname
+console.log(host)
 
 switch (host) {
   case 'www.zocrm.cloud':
     axios.defaults.baseURL = 'https://www.zocrm.cloud/api'
     break
   default:
-    axios.defaults.baseURL = 'http://127.0.0.1:5001/api'
+    // axios.defaults.baseURL = 'http://127.0.0.1:5001/api'
+    axios.defaults.baseURL = import.meta.env.VITE_BASE_API
     break
 }
 

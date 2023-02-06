@@ -1,5 +1,32 @@
 import request from '../axios/index'
 
+
+//根據id獲取實體
+export function GetById (id) {
+  return request({
+    url: `/menu/${id}`,
+    method: 'get'
+  })
+}
+
+//新增
+export function Insert (data) {
+  return request({
+    url: '/menu',
+    method: 'post',
+    data: data
+  })
+}
+
+//修改
+export function Update (data) {
+  return request({
+    url: '/menu',
+    method: 'put',
+    data: data
+  })
+}
+
 //獲取用戶路由
 export function getUserMenuTree () {
   return request({
@@ -20,23 +47,6 @@ export function getAllMenuTree () {
 export function getAllMenuTreeCas () {
   return request({
     url: '/menu/cascader',
-    method: 'get'
-  })
-}
-
-//新增
-export function Insert (data) {
-  return request({
-    url: '/menu',
-    method: 'put',
-    data: data
-  })
-}
-
-//根據id獲取實體
-export function GetById (id) {
-  return request({
-    url: `/menu/${id}`,
     method: 'get'
   })
 }

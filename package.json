@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:docker80":"vite build --mode docker80",
     "preview": "vite preview"
   },
   "dependencies": {
