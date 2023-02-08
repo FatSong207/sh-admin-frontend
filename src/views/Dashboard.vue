@@ -62,6 +62,34 @@
                 </a-card>
             </a-col>
         </a-row>
+        <a-row>
+            <a-col :span="24">
+                <a-card hoverable bordered class="card">
+                    <a-descriptions title="ServerInfo" bordered>
+                        <a-descriptions-item label="os">{{ data.serverInfo.os.goos }}</a-descriptions-item>
+                        <a-descriptions-item label="cpu nums">{{ data.serverInfo.os.numCpu }}</a-descriptions-item>
+                        <a-descriptions-item label="compiler">{{ data.serverInfo.os.compiler }}</a-descriptions-item>
+                        <a-descriptions-item label="go version">{{ data.serverInfo.os.goVersion }}</a-descriptions-item>
+                        <a-descriptions-item
+                            label="goroutine nums">{{ data.serverInfo.os.numGoroutine }}</a-descriptions-item>
+                        <!-- <a-descriptions-item label="goroutine nums">
+                            <a-progress type="circle" :percent="75" />
+                        </a-descriptions-item> -->
+                    </a-descriptions>
+                </a-card>
+            </a-col>
+        </a-row>
+        <a-row>
+            <a-col :span="24">
+                <a-card hoverable bordered class="card">
+                    <a-descriptions title="CPU" bordered :labelStyle="{width:'100px'}">
+                        <a-descriptions-item v-for="(item,index) in data.serverInfo.cpu.cpus" :key="index" :label="'core'+index">
+                            <a-progress :percent="parseInt(item)" size="small" />
+                        </a-descriptions-item>
+                    </a-descriptions>
+                </a-card>
+            </a-col>
+        </a-row>
         <a-row :gutter="16">
             <a-col :span="24">
                 <a-card class="card">
@@ -92,7 +120,7 @@
 import { QuestionCircleTwoTone } from '@ant-design/icons-vue'
 import * as echarts from "echarts";
 import { reactive, ref, onMounted } from 'vue';
-import { getSummary } from "../api/dashboard";
+import { getServerInfo } from "../api/dashboard";
 import { getUserInfo } from "../api/user";
 import { useRouter } from 'vue-router'
 
@@ -107,6 +135,14 @@ export default {
         const router = useRouter()
 
         const data = reactive({
+            serverInfo: {
+                os: {
+
+                },
+                cpu: {
+
+                }
+            },
             customers: 0,
             contracts: 0,
             contractAmount: 0.00,
@@ -116,7 +152,14 @@ export default {
         onMounted(() => {
             checkVersion();
             initChart();
+            getServerInfo().then(res => {
+                console.log(res.data.data)
+                data.serverInfo.os = res.data.data.os
+                data.serverInfo.cpu = res.data.data.cpu
+            })
         });
+
+
 
         const initChart = () => {
             let param = {
@@ -185,7 +228,6 @@ export default {
 <style scoped>
 .card {
     margin-top: 20px;
-    border: none;
-    box-shadow: 0 1px 16px 0 rgb(33 41 48 / 5%);
+    box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
 }
 </style>
