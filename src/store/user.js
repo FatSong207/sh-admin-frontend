@@ -40,12 +40,17 @@ export const useUserStore = defineStore('user', () => {
   }
 
   /*登入*/
-  const Login = async loginInfo => {
+  const Login = async (loginInfo,remember) => {
     try {
       const res = await userLogin(loginInfo)
       if (res.data.code === 0) {
         setUserInfo(res.data.data.user)
         setToken(res.data.data.token)
+        if (remember) {
+          localStorage.setItem("email",loginInfo.email)
+        }else{
+          localStorage.removeItem("email")
+        }
         const routerStore = useRouterStore()
         await routerStore.SetAsyncRouter()
         const asyncRouters = routerStore.asyncRouters
@@ -67,7 +72,7 @@ export const useUserStore = defineStore('user', () => {
     // if (res.code === 0) {
     token.value = ''
     sessionStorage.clear()
-    localStorage.clear()
+    // localStorage.clear()
     router.push({ path: '/login', replace: true })
     window.location.reload()
     // }

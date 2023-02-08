@@ -4,7 +4,7 @@ import { message, notification } from 'ant-design-vue'
 import { useUserStore } from '../store/user'
 
 const host = window.location.hostname
-console.log(host)
+console.log('hosting:', host)
 
 switch (host) {
   case 'www.zocrm.cloud':
@@ -61,7 +61,8 @@ request.interceptors.response.use(
     return response
   },
   error => {
-    console.log(error)
+    // console.log(error)
+    message.error(error.message)
     router.push('/error')
     return Promise.reject(error)
   }

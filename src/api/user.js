@@ -17,7 +17,7 @@ export function getUserInfo() {
 	})
 }
 
-// 用户注册
+// 註冊
 export function userRegister(param) {
     return request({
 		url: '/user/register',
@@ -26,7 +26,7 @@ export function userRegister(param) {
 	})
 }
 
-// 获取验证码
+// 獲取驗證碼
 export function getVerifyCode(param) {
     return request({
 		url: '/user/verifycode',

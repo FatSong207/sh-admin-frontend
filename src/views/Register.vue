@@ -1,23 +1,46 @@
 <template>
-    <a-form ref="registerFormRef" :model="formData" layout="vertical" @finish="onRegister" :rules="rules">
+    <a-form ref="registerFormRef" :model="data.editForm" layout="vertical" @finish="onRegister" :rules="data.rules">
+        <a-form-item name="name">
+            <a-input v-model:value="data.editForm.name" size="large" placeholder="姓名">
+                <template #addonBefore>
+                    <UserOutlined />
+                </template>
+            </a-input>
+        </a-form-item>
         <a-form-item name="email">
-            <a-input v-model:value="formData.email" size="large" placeholder="邮箱" />
+            <a-input v-model:value="data.editForm.email" size="large" placeholder="信箱">
+                <template #addonBefore>
+                    <MailOutlined />
+                </template>
+            </a-input>
         </a-form-item>
         <a-form-item name="code">
-            <a-input v-model:value="formData.code" size="large" style="width: 55%;" placeholder="验证码" />
-            <a-button @click="onGetCode" size="large" style="width: 40%;float: right;" :loading="loading"
-                :disabled="disabled">
-                {{ buttonText }}</a-button>
+            <a-input v-model:value="data.editForm.code" size="large" style="width: 55%;" placeholder="驗證碼">
+                <template #addonBefore>
+                    <VerifiedOutlined />
+                </template>
+            </a-input>
+            <a-button @click="onGetCode" size="large" style="width: 40%;float: right;" :loading="data.loading"
+                :disabled="data.disabled"><span v-if="data.buttonText === 's後再次發送'">{{ data.time }}</span>
+                {{ data.buttonText }}</a-button>
         </a-form-item>
         <a-form-item name="password1">
-            <a-input-password v-model:value="formData.password1" size="large" placeholder="密码" />
+            <a-input-password v-model:value="data.editForm.password1" size="large" placeholder="密碼">
+                <template #addonBefore>
+                    <LockOutlined />
+                </template>
+            </a-input-password>
         </a-form-item>
         <a-form-item name="password2">
-            <a-input-password v-model:value="formData.password2" size="large" placeholder="确认密码" />
+            <a-input-password v-model:value="data.editForm.password2" size="large" placeholder="確認密碼">
+                <template #addonBefore>
+                    <LockOutlined />
+                </template>
+            </a-input-password>
         </a-form-item>
         <a-form-item>
-            <a-button type="primary" html-type="submit" size="large" style="width: 50%;">注册</a-button>
-            <a-button type="link" style="width: 50%;" @click="onLogin">使用已有账户登录</a-button>
+            <a-button type="primary" html-type="submit" size="large" style="width: 50%;">註冊</a-button>
+            <a-button type="link" style="width: 50%;" @click="onLogin">返回登入</a-button>
         </a-form-item>
     </a-form>
 </template>
@@ -32,82 +55,98 @@ export default {
     setup() {
         const router = useRouter()
 
-        // 用户注册
-        const formData = reactive({
-            email: '',
-            code: '',
-            password1: '',
-            password2: '',
-        });
-
-        // 表单校验
-        const rules = {
-            email: [{
-                required: true,
-                message: '请输入邮箱!',
-                trigger: 'blur',
-            }, {
-                pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
-                message: '邮箱格式不正确',
-                trigger: 'blur',
-            }],
-            code: [{ required: true, message: '请输入验证码!' }],
-            password1: [{ required: true, message: '请输入密码!' }],
-            password2: [{ required: true, message: '请输入密码!' }],
-        };
-
-        const loading = ref(false)
-        const disabled = ref(false)
+        const data = reactive({
+            editForm: {
+                name: "",
+                email: "",
+                code: "",
+                password1: "",
+                password2: ""
+            },
+            rules: {
+                name: [{ required: true, message: '請輸入姓名!' }],
+                email: [{
+                    required: true,
+                    message: '請輸入信箱!',
+                    trigger: 'blur',
+                }, {
+                    pattern: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/,
+                    message: '信箱格式不正確',
+                    trigger: 'change',
+                }],
+                code: [{ required: true, message: '請輸入驗證碼!' }],
+                password1: [{ required: true, message: '請輸入密碼!' }],
+                password2: [{ required: true, message: '請輸入密碼!' }],
+            },
+            loading: false,
+            disabled: false,
+            buttonText: "獲取驗證碼",
+            time: 60,
+            timer: 0
+        })
         const registerFormRef = ref()
-        const buttonText = ref('获取验证码')
-
         const onRegister = () => {
             registerFormRef.value.validateFields().then(() => {
-                if (formData.password1 != formData.password2) {
-                    message.warn('密码不一致');
+                if (data.editForm.password1 != data.editForm.password2) {
+                    message.warn('密碼不一致');
                     return
                 }
                 let param = {
-                    email: formData.email,
-                    code: formData.code,
-                    password: formData.password2,
+                    name: data.editForm.name,
+                    email: data.editForm.email,
+                    code: data.editForm.code,
+                    password: data.editForm.password2,
                 }
+                console.log('驗證通過')
                 userRegister(param).then((res) => {
                     if (res.data.code == 0) {
-                        message.success('注册成功');
+                        message.success('註冊成功');
                         onLogin()
                     }
-                    if (res.data.code == 10001) {
-                        message.warn('该用户已经存在');
-                    }
-                    if (res.data.code == 10005) {
-                        message.error('验证码错误');
-                    }
+                    // if (res.data.code == 10001) {
+                    //     // message.warn('此信箱已被註冊過');
+                    // }
+                    // if (res.data.code == 10005) {
+                    //     // message.error('驗證碼錯誤');
+                    // }
                 })
             })
         };
 
-        // 获取验证码
+        // 獲取驗證碼
         const onGetCode = () => {
-            if (formData.email == '') {
-                message.warn('邮箱不能为空')
+            if (data.editForm.email == '') {
+                message.warn('信箱不能為空')
                 return
             }
-            loading.value = true
+            data.loading = true
             let param = {
-                email: formData.email
+                email: data.editForm.email
             }
             getVerifyCode(param).then((res) => {
                 if (res.data.code == 0) {
-                    loading.value = false
-                    disabled.value = true
-                    buttonText.value = '验证码已发送'
+                    data.loading = false
+                    data.disabled = true
+                    data.buttonText = 's後再次發送'
+                    timeChange()
                 }
                 if (res.data.code == 10004) {
-                    loading.value = false
-                    message.error('验证码发送失败')
+                    data.loading = false
                 }
             })
+        }
+
+        const timeChange = () => {
+            data.timer = setInterval(() => {
+                if (data.time) {
+                    data.time--
+                } else {
+                    data.disabled = false
+                    data.buttonText = '獲取驗證碼'
+                    data.time = 60
+                    clearInterval(data.timer)
+                }
+            }, 1000)
         }
 
         // 跳转到登录页面
@@ -116,12 +155,8 @@ export default {
         }
 
         return {
-            formData,
-            rules,
+            data,
             registerFormRef,
-            loading,
-            disabled,
-            buttonText,
             onRegister,
             onLogin,
             onGetCode,
