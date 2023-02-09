@@ -1,115 +1,169 @@
 <template>
     <div>
         <a-row :gutter="16">
-            <a-col :span="6">
-                <a-card class="card">
-                    <a-statistic :value="data.customers" style="margin-right: 50px">
-                        <template #title>
-                            <span>全部客户</span>
+            <a-col :span="12">
+                <a-card class="card" style="height: 253px;">
+                    <a-carousel autoplay effect="fade" :dots="false">
+                        <div v-for="item1, index in data.weather" :key="index">
+                            <SendOutlined :style="{ fontSize: '20px', color: '#08c', marginRight: '5px' }" />
+                            <span style="font-size:22px">{{ item1.locationName }}</span>
                             <a-tooltip placement="right">
                                 <template #title>
-                                    <span>客户数量，单位（人）</span>
+                                    <div>
+                                        {{ item1.weatherElement[0].time[0].startTime }}
+                                    </div>
+                                    至
+                                    <div>
+                                        {{ item1.weatherElement[0].time[0].endTime }}
+                                    </div>
                                 </template>
                                 <question-circle-two-tone style="margin-left: 5px" />
                             </a-tooltip>
-                        </template>
-                    </a-statistic>
+
+                            <a-descriptions :column="2" style="margin-top:10px ;">
+                                <a-descriptions-item label="天氣現象">
+                                    {{
+                                        item1.weatherElement.filter(x => x.elementName ===
+                                            "Wx")[0].time[0].parameter.parameterName
+                                    }}
+                                </a-descriptions-item>
+                                <a-descriptions-item label="降雨機率">
+                                    <a-progress :percent="parseInt(item1.weatherElement.filter(x => x.elementName ===
+                                    'PoP')[0].time[0].parameter.parameterName)" status="active" />
+                                </a-descriptions-item>
+                                <a-descriptions-item label="氣溫">
+                                    {{
+                                        item1.weatherElement.filter(x => x.elementName ===
+                                            "MinT")[0].time[0].parameter.parameterName
+                                    }}°C 至
+                                    {{
+                                        item1.weatherElement.filter(x => x.elementName ===
+                                            "MaxT")[0].time[0].parameter.parameterName
+                                    }}°C
+                                </a-descriptions-item>
+                                <a-descriptions-item label="舒適度">
+                                    {{
+                                        item1.weatherElement.filter(x => x.elementName ===
+                                            "CI")[0].time[0].parameter.parameterName
+                                    }}
+                                </a-descriptions-item>
+                            </a-descriptions>
+                            <!-- <div v-for="item, index2 in item1.weatherElement" :key="index2">
+                                {{
+                                    item.elementName === "Wx" ? "天氣現象" : item.elementName === "PoP" ?
+                                        "降雨機率" : item.elementName === "MinT" ? "最低溫" : item.elementName === "CI" ? "舒適度" : item.elementName === "MaxT" ? "最高溫" : "未知"
+                                }} : {{ item.time[0].parameter.parameterName }}
+                            </div> -->
+                        </div>
+                    </a-carousel>
+                    <template #title>
+                        <CloudOutlined :style="{ fontSize: '26px', color: '#08c', marginRight: '5px' }" />
+                        <span style="font-size: 26px;">今日天氣</span>
+                        <a-tooltip placement="right">
+                            <template #title>
+                                <span>中央氣象局公開資料</span>
+                            </template>
+                            <!-- <question-circle-two-tone style="margin-left: 5px" /> -->
+                        </a-tooltip>
+                    </template>
+                    <template #extra>
+                        <a href="https://opendata.cwb.gov.tw/dist/opendata-swagger.html">資料來源</a>
+                    </template>
                 </a-card>
             </a-col>
-            <a-col :span="6">
-                <a-card class="card">
-                    <a-statistic :value="data.contracts" style="margin-right: 50px">
-                        <template #title>
-                            <span>全部合同</span>
-                            <a-tooltip placement="right">
+            <a-col :span="12">
+                <a-row :gutter="16">
+                    <a-col :span="12">
+                        <a-card class="card">
+                            <a-statistic :value="3000" style="margin-right: 50px">
                                 <template #title>
-                                    <span>合同数量，单位（份）</span>
+                                    <TeamOutlined :style="{ fontSize: '22px', color: '#08c', marginRight: '5px' }" />
+                                    <span>使用者</span>
                                 </template>
-                                <question-circle-two-tone style="margin-left: 5px" />
-                            </a-tooltip>
-                        </template>
-                    </a-statistic>
-                </a-card>
-            </a-col>
-            <a-col :span="6">
-                <a-card class="card">
-                    <a-statistic :value="data.contractAmount" style="margin-right: 50px">
-                        <template #title>
-                            <span>合同金额</span>
-                            <a-tooltip placement="right">
+                            </a-statistic>
+                        </a-card>
+                    </a-col>
+                    <a-col :span="12">
+                        <a-card class="card">
+                            <a-statistic :value="1230" style="margin-right: 50px">
                                 <template #title>
-                                    <span>实际完成合同金额，单位（元）</span>
+                                    <ExceptionOutlined
+                                        :style="{ fontSize: '22px', color: '#08c', marginRight: '5px' }" />
+                                    <span>LOG</span>
                                 </template>
-                                <question-circle-two-tone style="margin-left: 5px" />
-                            </a-tooltip>
-                        </template>
-                    </a-statistic>
-                </a-card>
-            </a-col>
-            <a-col :span="6">
-                <a-card class="card">
-                    <a-statistic :value="data.products" style="margin-right: 50px">
-                        <template #title>
-                            <span>全部产品</span>
-                            <a-tooltip placement="right">
+                            </a-statistic>
+                        </a-card>
+                    </a-col>
+                </a-row>
+                <a-row :gutter="16">
+                    <a-col :span="12">
+                        <a-card class="card">
+                            <a-statistic :value="21" style="margin-right: 50px">
                                 <template #title>
-                                    <span>产品数量，单位（个）</span>
+                                    <TeamOutlined :style="{ fontSize: '22px', color: '#08c', marginRight: '5px' }" />
+                                    <span>訪客數</span>
                                 </template>
-                                <question-circle-two-tone style="margin-left: 5px" />
-                            </a-tooltip>
-                        </template>
-                    </a-statistic>
-                </a-card>
+                            </a-statistic>
+                        </a-card>
+                    </a-col>
+                    <a-col :span="12">
+                        <a-card class="card">
+                            <a-statistic value="99%" style="margin-right: 50px">
+                                <template #title>
+                                    <ExceptionOutlined
+                                        :style="{ fontSize: '22px', color: '#08c', marginRight: '5px' }" />
+                                    <span>好評率</span>
+                                </template>
+                            </a-statistic>
+                        </a-card>
+                    </a-col>
+
+                </a-row>
             </a-col>
-        </a-row>
-        <a-row>
-            <a-col :span="24">
-                <a-card hoverable bordered class="card">
-                    <a-descriptions title="ServerInfo" bordered>
-                        <a-descriptions-item label="os">{{ data.serverInfo.os.goos }}</a-descriptions-item>
-                        <a-descriptions-item label="cpu nums">{{ data.serverInfo.os.numCpu }}</a-descriptions-item>
-                        <a-descriptions-item label="compiler">{{ data.serverInfo.os.compiler }}</a-descriptions-item>
-                        <a-descriptions-item label="go version">{{ data.serverInfo.os.goVersion }}</a-descriptions-item>
-                        <a-descriptions-item
-                            label="goroutine nums">{{ data.serverInfo.os.numGoroutine }}</a-descriptions-item>
-                        <!-- <a-descriptions-item label="goroutine nums">
-                            <a-progress type="circle" :percent="75" />
-                        </a-descriptions-item> -->
-                    </a-descriptions>
-                </a-card>
-            </a-col>
-        </a-row>
-        <a-row>
-            <a-col :span="24">
-                <a-card hoverable bordered class="card">
-                    <a-descriptions title="CPU" bordered :labelStyle="{width:'100px'}">
-                        <a-descriptions-item v-for="(item,index) in data.serverInfo.cpu.cpus" :key="index" :label="'core'+index">
-                            <a-progress :percent="parseInt(item)" size="small" />
-                        </a-descriptions-item>
-                    </a-descriptions>
-                </a-card>
-            </a-col>
+
         </a-row>
         <a-row :gutter="16">
-            <a-col :span="24">
-                <a-card class="card">
-                    <div style="display:flex;align-items: center;justify-content: space-between;">
-                        <div style="color: #606266;font-size: 16px;font-weight: 600;margin-left: 10px;">
-                            <span>合同金额完成情况</span>
-                            <a-tooltip placement="right">
-                                <template #title>
-                                    <span>实际完成金额，单位（元）</span>
-                                </template>
-                                <question-circle-two-tone style="margin-left: 5px" />
-                            </a-tooltip>
-                        </div>
-                        <a-radio-group v-model:value="daysRange" @change="initChart" style="margin-left: 20px;">
-                            <a-radio-button :value="7">最近7天</a-radio-button>
-                            <a-radio-button :value="14">最近14天</a-radio-button>
-                            <a-radio-button :value="30">最近30天</a-radio-button>
-                        </a-radio-group>
-                    </div>
-                    <div id="main" style="width: 100%; height: 360px;"></div>
+            <a-col :span="12">
+                <a-card class="card" style="height: 500px;">
+                    <!-- <a-statistic :value="data.products" style="margin-right: 50px"> -->
+                    <a-list item-layout="horizontal" :data-source="data.commit" style="overflow:auto;height:400px">
+                        <template #renderItem="{ item }">
+                            <a-list-item>
+                                <a-list-item-meta>
+                                    <template #description>
+                                        <div style="padding-left:15px ;">
+                                            <SearchOutlined />
+                                            <a :href="item.html_url" style="color: black;">{{
+                                                item.commit.message
+                                            }}</a>
+                                        </div>
+                                    </template>
+                                    <template #title>
+                                        <a-button type="link">{{
+                                            item.commit.author.name
+                                        }}</a-button>
+                                        <span style="color:rgba(0, 0, 0, 0.45)">{{
+                                            parseDate(item.commit.author.date)
+                                        }}</span>
+                                    </template>
+                                    <template #avatar>
+                                        <a-avatar :src="item.author.avatar_url" />
+                                    </template>
+                                </a-list-item-meta>
+                            </a-list-item>
+                        </template>
+                    </a-list>
+                    <template #title>
+                        <GithubOutlined :style="{ fontSize: '26px', color: '#08c', marginRight: '5px' }" />
+                        <span style="font-size:26px;">更新紀錄</span>
+                        <a-tooltip placement="right">
+                            <template #title>
+                                <span>Github每次commit紀錄</span>
+                            </template>
+                            <question-circle-two-tone style="margin-left: 5px" />
+                        </a-tooltip>
+                    </template>
+                    <!-- </a-statistic> -->
                 </a-card>
             </a-col>
         </a-row>
@@ -118,108 +172,49 @@
 
 <script>
 import { QuestionCircleTwoTone } from '@ant-design/icons-vue'
-import * as echarts from "echarts";
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, onMounted, onUnmounted } from 'vue';
 import { getServerInfo } from "../api/dashboard";
 import { getUserInfo } from "../api/user";
+import { getWeather, Commits } from "../api/thirdparty"
 import { useRouter } from 'vue-router'
+import moment from 'moment'
 
 export default {
     components: {
         QuestionCircleTwoTone
     },
     setup() {
-
-        const daysRange = ref(7);
-
         const router = useRouter()
 
         const data = reactive({
-            serverInfo: {
-                os: {
-
-                },
-                cpu: {
-
-                }
-            },
-            customers: 0,
-            contracts: 0,
-            contractAmount: 0.00,
-            products: 0,
+            weather: [],
+            commit: [],
+            timer: 0,
         })
 
         onMounted(() => {
-            checkVersion();
-            initChart();
-            getServerInfo().then(res => {
-                console.log(res.data.data)
-                data.serverInfo.os = res.data.data.os
-                data.serverInfo.cpu = res.data.data.cpu
+            getWeather().then(res => {
+                console.log(res)
+                data.weather = res.data.records.location
+            })
+            Commits().then(res => {
+                console.log(res)
+                data.commit = res.data
             })
         });
 
+        onUnmounted(() => {
+            clearInterval(data.timer)
+            data.timer = 0
+        })
 
-
-        const initChart = () => {
-            let param = {
-                daysRange: daysRange.value
-            }
-            // getSummary(param).then((res) => {
-            //     if (res.data.code == 0) {
-            //         data.customers = res.data.data.customers
-            //         data.contracts = res.data.data.contracts
-            //         data.contractAmount = res.data.data.contractAmount
-            //         data.products = res.data.data.products
-            //         echarts.init(document.getElementById("main")).setOption({
-            //             xAxis: {
-            //                 type: 'category',
-            //                 data: res.data.data.date,
-            //             },
-            //             tooltip: {
-            //                 trigger: 'axis',
-            //                 axisPointer: {
-            //                     type: 'shadow'
-            //                 }
-            //             },
-            //             legend: {
-            //                 data: ['实际完成金额'],
-            //                 orient: 'vertical',
-            //                 bottom: 10,
-            //             },
-            //             yAxis: {
-            //                 type: 'value',
-            //             },
-            //             series: [
-            //                 {
-            //                     name: '实际完成金额',
-            //                     data: res.data.data.amount,
-            //                     type: 'line',
-            //                     smooth: true,
-            //                     lineStyle: {
-            //                         width: 3
-            //                     }
-            //                 }
-            //             ]
-            //         })
-            //     }
-            // })
-        }
-
-        // 查看用户系统版本
-        const checkVersion = () => {
-            getUserInfo().then((res) => {
-                if (res.data.code == 0 && res.data.data.version == 1) {
-                    router.push('/result')
-                }
-            })
+        const parseDate = (date) => {
+            return moment(date).format("yyyy-MM-DD")
         }
 
         return {
             data,
-            daysRange,
-            initChart,
-            checkVersion,
+            parseDate
         }
     }
 }

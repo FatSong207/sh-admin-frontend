@@ -6,18 +6,19 @@ import { useUserStore } from '../store/user'
 const host = window.location.hostname
 console.log('hosting:', host)
 
-switch (host) {
-  case 'www.zocrm.cloud':
-    axios.defaults.baseURL = 'https://www.zocrm.cloud/api'
-    break
-  default:
-    // axios.defaults.baseURL = 'http://127.0.0.1:5001/api'
-    axios.defaults.baseURL = import.meta.env.VITE_BASE_API
-    break
-}
+// switch (host) {
+//   case 'www.zocrm.cloud':
+//     axios.defaults.baseURL = 'https://www.zocrm.cloud/api'
+//     break
+//   default:
+//     // axios.defaults.baseURL = 'http://127.0.0.1:5001/api'
+//     axios.defaults.baseURL = import.meta.env.VITE_BASE_API
+//     break
+// }
 
 const request = axios.create({
   timeout: 10000,
+  baseURL : import.meta.env.VITE_BASE_API,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
   }
