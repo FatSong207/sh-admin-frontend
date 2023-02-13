@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import Index from '../views/Index.vue'
+import Index from '../views/index/Index.vue'
 import { useUserStore } from '../store/user'
 import { useRouterStore } from '../store/router'
 
@@ -29,27 +29,27 @@ const routes = [
       {
         path: '/login',
         name: 'Login',
-        component: () => import('../views/Login.vue')
+        component: () => import('../views/index/Login.vue')
       },
       {
         path: '/register',
         name: 'Register',
-        component: () => import('../views/Register.vue')
+        component: () => import('../views/index/Register.vue')
       },
       {
         path: '/pass',
         name: 'Pass',
-        component: () => import('../views/Pass.vue')
+        component: () => import('../views/index/Pass.vue')
       },
       {
         path: '/404',
         name: 'Page404',
-        component: () => import('../views/404.vue')
+        component: () => import('../views/error/404.vue')
       },
       {
         path: '/403',
         name: 'Page403',
-        component: () => import('../views/403.vue')
+        component: () => import('../views/error/403.vue')
       }
     ]
   }

@@ -84,7 +84,7 @@
 
 <script>
 import { reactive, onMounted, onUnmounted, computed } from 'vue';
-import { getServerInfo } from "../api/dashboard";
+import { getServerInfo } from "../../api/dashboard";
 
 export default {
     setup() {

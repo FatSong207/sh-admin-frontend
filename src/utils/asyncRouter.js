@@ -1,4 +1,4 @@
-const viewModules = import.meta.glob('../views/*.vue')
+const viewModules = import.meta.glob('../views/**/*.vue')
 
 export const asyncRouterHandle = asyncRouter => {
   // console.log(viewModules)

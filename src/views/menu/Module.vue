@@ -123,9 +123,9 @@
 <script>
 import { message } from 'ant-design-vue';
 import { onMounted, reactive, ref, watch } from 'vue';
-import { useRouterStore } from '../store/router'
-import { getAllMenuTree, getAllMenuTreeCas, Insert, Update, GetById } from '../api/menu'
-import antdIcon from '../assets/antdicon'
+import { useRouterStore } from '../../store/router'
+import { getAllMenuTree, getAllMenuTreeCas, Insert, Update, GetById } from '../../api/menu'
+import antdIcon from '../../assets/antdicon'
 import { connect } from 'echarts';
 
 

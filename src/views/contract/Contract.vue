@@ -166,9 +166,9 @@
 import { ref, reactive, onMounted, createVNode } from 'vue';
 import { SearchOutlined, ExclamationCircleOutlined, UpCircleOutlined, DownCircleOutlined } from '@ant-design/icons-vue';
 import moment from 'moment'
-import { createContract, updateContract, queryContractList, queryContractInfo, deleteContract, queryContractPlist } from '../api/contract';
-import { queryProductList } from "../api/product";
-import { queryCustomerOption } from "../api/customer";
+import { createContract, updateContract, queryContractList, queryContractInfo, deleteContract, queryContractPlist } from '../../api/contract';
+import { queryProductList } from "../../api/product";
+import { queryCustomerOption } from "../../api/customer";
 import { message, Modal } from 'ant-design-vue';
 
 export default {

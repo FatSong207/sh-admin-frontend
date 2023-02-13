@@ -101,7 +101,7 @@
 import { ref, reactive, onMounted, createVNode } from 'vue';
 import { SearchOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import moment from 'moment'
-import { createProduct, updateProduct, queryProductList, deleteProduct, queryProductInfo } from '../api/product';
+import { createProduct, updateProduct, queryProductList, deleteProduct, queryProductInfo } from '../../api/product';
 import { message, Modal } from 'ant-design-vue';
 
 export default {

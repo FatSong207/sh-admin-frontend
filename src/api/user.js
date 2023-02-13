@@ -35,24 +35,6 @@ export function getVerifyCode(param) {
 	})
 }
 
-// 忘记密码
-export function userForgotPass(param) {
-    return request({
-		url: '/user/pass',
-		method: 'post',
-		data: param,
-	})
-}
-
-// 修改邮箱
-export function updateMail(param) {
-    return request({
-		url: '/user/mail',
-		method: 'put',
-		data: param,
-	})
-}
-
 // 退出登录
 export function userLogout(param) {
     return request({
@@ -62,29 +44,3 @@ export function userLogout(param) {
 	})
 }
 
-// 注销账号
-export function userDelete(param) {
-    return request({
-		url: '/user/delete',
-		method: 'delete',
-		data: param,
-	})
-}
-
-// // 获取用户信息
-// export function getUserInfo(param) {
-//     return request({
-// 		url: '/user/info',
-// 		method: 'get',
-// 		params: param,
-// 	})
-// }
-
-// 订阅个人版
-export function userBuy(param) {
-    return request({
-		url: '/user/buy',
-		method: 'put',
-		data: param,
-	})
-}

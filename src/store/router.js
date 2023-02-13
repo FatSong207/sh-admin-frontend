@@ -4,9 +4,6 @@ import { getUserMenuTree } from '../api/menu'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-import Error from '../views/Error.vue'
-import Home from '../views/Home.vue'
-
 const routerListArr = []
 const keepAliveRoutersArr = []
 
@@ -49,7 +46,7 @@ export const useRouterStore = defineStore('router', () => {
       },
     ]
     const asyncRouterRes = await getUserMenuTree()
-    // console.log('asyncRouterRes123', asyncRouterRes)
+    //  console.log('asyncRouterRes123', asyncRouterRes)/
     const asyncRouter = asyncRouterRes.data.data
     // console.log(asyncRouter, 'asyncRouter')
     asyncRouter &&

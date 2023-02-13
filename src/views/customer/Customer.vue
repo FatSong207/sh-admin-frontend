@@ -121,9 +121,9 @@
 import { ref, reactive, onMounted, createVNode } from 'vue';
 import { SearchOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import moment from 'moment'
-import { createCustomer, updateCustomer, queryCustomerList, queryCustomerInfo, deleteCustomer } from '../api/customer';
+import { createCustomer, updateCustomer, queryCustomerList, queryCustomerInfo, deleteCustomer } from '../../api/customer';
 import { message, Modal } from 'ant-design-vue';
-import regionData from '../assets/region';
+import regionData from '../../assets/region';
 
 export default {
     components: {

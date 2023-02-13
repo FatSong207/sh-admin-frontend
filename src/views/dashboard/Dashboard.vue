@@ -173,9 +173,9 @@
 <script>
 import { QuestionCircleTwoTone } from '@ant-design/icons-vue'
 import { reactive, onMounted, onUnmounted } from 'vue';
-import { getServerInfo } from "../api/dashboard";
-import { getUserInfo } from "../api/user";
-import { getWeather, Commits } from "../api/thirdparty"
+import { getServerInfo } from "../../api/dashboard";
+import { getUserInfo } from "../../api/user";
+import { getWeather, Commits } from "../../api/thirdparty"
 import { useRouter } from 'vue-router'
 import moment from 'moment'
 

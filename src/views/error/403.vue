@@ -15,7 +15,7 @@
 
 <script>
 import { reactive, ref, onMounted, onBeforeUnmount, computed, } from 'vue';
-import router from '../router/index';
+import router from '../../router/index';
 export default {
     name: 'Page404',
     setup() {
