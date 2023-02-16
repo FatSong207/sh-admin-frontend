@@ -7,3 +7,11 @@ export function getServerInfo() {
 		method: 'get',
 	})
 }
+
+// 獲取dashboard
+export function getDashboard() {
+    return request({
+		url: '/system/dashboard',
+		method: 'get',
+	})
+}

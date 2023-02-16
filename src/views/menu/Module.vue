@@ -1,39 +1,45 @@
 <template>
     <div>
-        <a-space style="margin-bottom: 20px">
+        <a-card class="searchcard">
             <a-input v-model:value="data.keyWord" placeholder="功能名稱" style="width: 280px; margin-right: 50px;">
                 <template #suffix>
                     <search-outlined style="color: rgba(0, 0, 0, 0.45)" @click="onSearch" />
                 </template>
             </a-input>
-            <a-button type="primary">查詢</a-button>
-            <a-button type="primary" @click="onCreate">新建</a-button>
-        </a-space>
-        <a-table :columns="data.columns" :data-source="data.menuItem" :row-selection="rowSelection" rowKey="Id"
-            size="middle" class="ant-table-striped"
-            :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)" :loading="data.loading">
-            <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'title'">
-                    <component :is="record.meta.icon" /> <span style="margin-left:5px">
-                        <a @click="onEdit(record)">{{ record.chname }}</a>
-                    </span>
+        </a-card>
+        <a-card class="card">
+            <a-space class="btnspace">
+                <a-button @click="getAllMenu">刷新</a-button>
+                <a-button type="primary" @click="onCreate">新建</a-button>
+                <a-button type="primary" danger @click="onDelete">刪除</a-button>
+            </a-space>
+            <a-table :columns="data.columns" :data-source="data.menuItem" :row-selection="rowSelection" rowKey="Id"
+                size="middle" class="ant-table-striped"
+                :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)"
+                :loading="data.loading">
+                <template #bodyCell="{ column, record }">
+                    <template v-if="column.key === 'title'">
+                        <component :is="record.meta.icon" /> <span style="margin-left:5px">
+                            <a @click="onEdit(record)">{{ record.chname }}</a>
+                        </span>
+                    </template>
+                    <template v-if="column.key === 'menuType'">
+                        <span>
+                            <a-tag v-if="record.menuType == 1" color="green">功能模組</a-tag>
+                            <a-tag v-if="record.menuType == 2" color="blue">菜單</a-tag>
+                            <!-- {{ record.menuType === 1 ? '功能模組' : record.menuType === 2 ? '菜單' : '' }} -->
+                        </span>
+                    </template>
+                    <template v-if="column.key === 'hidden'">
+                        <span>
+                            <a-tag v-if="record.hidden" color="default">隱藏</a-tag>
+                            <a-tag v-if="!record.hidden" color="success">啟用</a-tag>
+                            <!-- {{ record.menuType === 1 ? '功能模組' : record.menuType === 2 ? '菜單' : '' }} -->
+                        </span>
+                    </template>
                 </template>
-                <template v-if="column.key === 'menuType'">
-                    <span>
-                        <a-tag v-if="record.menuType == 1" color="green">功能模組</a-tag>
-                        <a-tag v-if="record.menuType == 2" color="blue">菜單</a-tag>
-                        <!-- {{ record.menuType === 1 ? '功能模組' : record.menuType === 2 ? '菜單' : '' }} -->
-                    </span>
-                </template>
-                <template v-if="column.key === 'hidden'">
-                    <span>
-                        <a-tag v-if="record.hidden" color="default">隱藏</a-tag>
-                        <a-tag v-if="!record.hidden" color="success">啟用</a-tag>
-                        <!-- {{ record.menuType === 1 ? '功能模組' : record.menuType === 2 ? '菜單' : '' }} -->
-                    </span>
-                </template>
-            </template>
-        </a-table>
+            </a-table>
+        </a-card>
         <a-modal v-model:visible="data.modalVisible" :title="data.modalTitle" @ok="onSave" @cancel="onCancel"
             cancelText="取消" okText="保存" width="880px" style="top: 80px;">
             <a-form ref="editFormRef" name="editForm" :model="data.editForm" layout="horizontal"
@@ -121,10 +127,10 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue';
+import { message, Modal } from 'ant-design-vue';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { useRouterStore } from '../../store/router'
-import { getAllMenuTree, getAllMenuTreeCas, Insert, Update, GetById } from '../../api/menu'
+import { getAllMenuTree, getAllMenuTreeCas, Insert, Update, Delete, GetById } from '../../api/menu'
 import antdIcon from '../../assets/antdicon'
 import { connect } from 'echarts';
 
@@ -213,6 +219,7 @@ export default {
             loading: false,
             modalTitle: "",
             action: "",
+            selectedRowKeys: "",
             iconSelect: antdIcon
         });
         const editFormRef = ref();
@@ -235,12 +242,13 @@ export default {
             checkStrictly: true,
             onChange: (selectedRowKeys, selectedRows) => {
                 console.log(`selectedRowKeys: ${selectedRowKeys}`, "selectedRows: ", selectedRows);
+                data.selectedRowKeys = selectedRowKeys
             },
             onSelect: (record, selected, selectedRows) => {
-                console.log(record, selected, selectedRows);
+                // console.log(record, selected, selectedRows);
             },
             onSelectAll: (selected, selectedRows, changeRows) => {
-                console.log(selected, selectedRows, changeRows);
+                // console.log(selected, selectedRows, changeRows);
             },
         });
         const onSearch = () => {
@@ -292,7 +300,7 @@ export default {
                         });
                         break;
                     case 2:
-                        Update(data.editForm).then(res=>{
+                        Update(data.editForm).then(res => {
                             console.log(res.data.data)
                             reseteditForm();
                             data.modalVisible = false;
@@ -306,6 +314,28 @@ export default {
                 // message.info("操作成功！");
             });
         };
+        const onDelete = () => {
+            if (data.selectedRowKeys === "") {
+                message.warning('請至少選擇一筆資料')
+                return
+            } else {
+                Modal.confirm({
+                    title: '警告',
+                    // icon: createVNode(ExclamationCircleOutlined),
+                    content: '確定要刪除？',
+                    okText: '確認',
+                    cancelText: '取消',
+                    onOk() {
+                        // console.log('onok')
+                        let ids = data.selectedRowKeys
+                        Delete(ids).then(res => {
+                            console.log(res)
+                            getAllMenu()
+                        })
+                    },
+                })
+            }
+        }
         const onCancel = () => {
             reseteditForm();
         };
@@ -390,9 +420,11 @@ export default {
             onCreate,
             onEdit,
             onSave,
+            onDelete,
             onCancel,
             genPath,
-            filterOption
+            filterOption,
+            getAllMenu
         };
     },
 }

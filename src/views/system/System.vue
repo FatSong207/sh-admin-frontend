@@ -154,7 +154,7 @@ export default {
 
 <style scoped>
 .card {
-    margin-top: 20px;
+    margin-bottom: 20px;
     box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
 }
 </style>

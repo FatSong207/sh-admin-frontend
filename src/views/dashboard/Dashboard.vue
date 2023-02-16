@@ -75,7 +75,7 @@
                 <a-row :gutter="16">
                     <a-col :span="12">
                         <a-card class="card">
-                            <a-statistic :value="3000" style="margin-right: 50px">
+                            <a-statistic :value="data.userCount" style="margin-right: 50px">
                                 <template #title>
                                     <TeamOutlined :style="{ fontSize: '22px', color: '#08c', marginRight: '5px' }" />
                                     <span>使用者</span>
@@ -85,7 +85,7 @@
                     </a-col>
                     <a-col :span="12">
                         <a-card class="card">
-                            <a-statistic :value="1230" style="margin-right: 50px">
+                            <a-statistic :value="data.logCount" style="margin-right: 50px">
                                 <template #title>
                                     <ExceptionOutlined
                                         :style="{ fontSize: '22px', color: '#08c', marginRight: '5px' }" />
@@ -98,10 +98,10 @@
                 <a-row :gutter="16">
                     <a-col :span="12">
                         <a-card class="card">
-                            <a-statistic :value="21" style="margin-right: 50px">
+                            <a-statistic :value="data.visitCount" style="margin-right: 50px">
                                 <template #title>
                                     <TeamOutlined :style="{ fontSize: '22px', color: '#08c', marginRight: '5px' }" />
-                                    <span>訪客數</span>
+                                    <span>今日訪客數</span>
                                 </template>
                             </a-statistic>
                         </a-card>
@@ -173,8 +173,7 @@
 <script>
 import { QuestionCircleTwoTone } from '@ant-design/icons-vue'
 import { reactive, onMounted, onUnmounted } from 'vue';
-import { getServerInfo } from "../../api/dashboard";
-import { getUserInfo } from "../../api/user";
+import { getDashboard } from "../../api/dashboard";
 import { getWeather, Commits } from "../../api/thirdparty"
 import { useRouter } from 'vue-router'
 import moment from 'moment'
@@ -189,16 +188,25 @@ export default {
         const data = reactive({
             weather: [],
             commit: [],
+            userCount: 0,
+            logCount: 0,
+            visitCount:0,
             timer: 0,
         })
 
         onMounted(() => {
-            getWeather().then(res => {
+            getDashboard().then(res => {
                 console.log(res)
+                data.userCount = res.data.data.userCount
+                data.logCount = res.data.data.logCount
+                data.visitCount = res.data.data.visitCount
+            })
+            getWeather().then(res => {
+                // console.log(res)
                 data.weather = res.data.records.location
             })
             Commits().then(res => {
-                console.log(res)
+                // console.log(res)
                 data.commit = res.data
             })
         });
@@ -222,7 +230,7 @@ export default {
 
 <style scoped>
 .card {
-    margin-top: 20px;
+    margin-bottom: 20px;
     box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
 }
 </style>

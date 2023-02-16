@@ -85,7 +85,7 @@
           </template>
         </a-breadcrumb> -->
       </div>
-      <a-layout-content :style="{ margin: '10px', padding: '18px 18px 18px 18px', background: '#fff', }"
+      <a-layout-content :style="{ margin: '10px', }"
         class="content">
         <router-view v-slot="{ Component }">
           <transition name="fade-transform" mode="out-in">
@@ -192,8 +192,9 @@ export default {
 }
 
 .content {
-  box-shadow: 0 2px 12px 0 rgb(0 0 0/10%);
+  /* box-shadow: 0 2px 12px 0 rgb(0 0 0/10%); */
   border-radius: 5px;
+  /* padding: 20px; */
 }
 
 .trigger {

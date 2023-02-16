@@ -24,4 +24,14 @@
 #nprogress .bar {
   background: #476FFF !important;
 }
+
+.btnspace {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.card {
+    /* margin-bottom: 20px; */
+    box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
+}
 </style>

@@ -1,6 +1,5 @@
 import request from '../axios/index'
 
-
 //根據id獲取實體
 export function GetById (id) {
   return request({
@@ -24,6 +23,14 @@ export function Update (data) {
     url: '/menu',
     method: 'put',
     data: data
+  })
+}
+
+//刪除
+export function Delete (ids) {
+  return request({
+    url: `/menu/${ids}`,
+    method: 'delete'
   })
 }
 
