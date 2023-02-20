@@ -189,10 +189,4 @@ const fmtBody = (value) => {
 .ant-table-striped :deep(.table-striped) td {
     background-color: #fafafa;
 }
-
-.searchcard {
-    margin-bottom: 20px;
-    width: 100%;
-    box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
-}
 </style>

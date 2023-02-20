@@ -174,7 +174,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .sider {
   background: #fff;
   border-right: 0.5px solid #F0F2F5;
@@ -223,18 +223,28 @@ export default {
   margin-left: 10px;
 }
 
-.popover {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 0;
-}
-
 .title {
   font-size: 20px;
   color: rgba(31, 31, 31, 0.85);
   font-weight: 620;
   margin-left: 10px;
   overflow: hidden;
+}
+
+.searchcard {
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
+}
+
+
+.btnspace {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.card {
+    /* margin-bottom: 20px; */
+    box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
 }
 </style>

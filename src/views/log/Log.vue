@@ -90,7 +90,7 @@ const data = reactive({
     },
     columns: [{
         title: '使用者',
-        dataIndex: 'user_id',
+        dataIndex: 'userName',
         align: 'center',
         fixed: 'left',
         width: 80
@@ -202,7 +202,7 @@ const fmtBody = (value) => {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ant-table-striped :deep(.table-striped) td {
     background-color: #fafafa;
 }

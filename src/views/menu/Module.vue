@@ -130,7 +130,7 @@
 import { message, Modal } from 'ant-design-vue';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { useRouterStore } from '../../store/router'
-import { getAllMenuTree, getAllMenuTreeCas, Insert, Update, Delete, GetById } from '../../api/menu'
+import { getAllMenuTree, getAllMenuTreeCas, InsertMenu, UpdateMenu, DeleteMenu, GetMenuById } from '../../api/menu'
 import antdIcon from '../../assets/antdicon'
 import { connect } from 'echarts';
 
@@ -260,10 +260,7 @@ export default {
             data.modalVisible = true;
         };
         const onEdit = (record) => {
-            data.action = 2
-            data.modalVisible = true;
-            data.modalTitle = "編輯";
-            GetById(record.Id).then(res => {
+            GetMenuById(record.Id).then(res => {
                 console.log(res);
                 if (res.data.data.parentIds) {
                     var p = res.data.data.parentIds.split(",").filter(item => item != "").reverse().map(str => parseInt(str));
@@ -281,6 +278,10 @@ export default {
                 data.editForm.sort = res.data.data.sort;
                 data.editForm.hidden = res.data.data.hidden;
                 data.editForm.meta = {};
+
+                data.action = 2
+                data.modalVisible = true;
+                data.modalTitle = "編輯";
             });
         };
         const onSave = () => {
@@ -293,19 +294,21 @@ export default {
                 data.editForm.meta.icon = data.editForm.icon;
                 switch (data.action) {
                     case 1:
-                        Insert(data.editForm).then(res => {
+                        InsertMenu(data.editForm).then(res => {
                             reseteditForm();
                             data.modalVisible = false;
                             getAllMenu();
                         });
+                        message.success('新增成功！')
                         break;
                     case 2:
-                        Update(data.editForm).then(res => {
+                        UpdateMenu(data.editForm).then(res => {
                             console.log(res.data.data)
                             reseteditForm();
                             data.modalVisible = false;
                             getAllMenu();
                         })
+                        message.success('修改成功！')
                         break;
                     default:
                         message.error('獲取action失敗，請重新整理')
@@ -328,7 +331,7 @@ export default {
                     onOk() {
                         // console.log('onok')
                         let ids = data.selectedRowKeys
-                        Delete(ids).then(res => {
+                        DeleteMenu(ids).then(res => {
                             console.log(res)
                             getAllMenu()
                         })

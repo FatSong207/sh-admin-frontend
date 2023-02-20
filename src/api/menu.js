@@ -1,7 +1,7 @@
 import request from '../axios/index'
 
 //根據id獲取實體
-export function GetById (id) {
+export function GetMenuById (id) {
   return request({
     url: `/menu/${id}`,
     method: 'get'
@@ -9,7 +9,7 @@ export function GetById (id) {
 }
 
 //新增
-export function Insert (data) {
+export function InsertMenu (data) {
   return request({
     url: '/menu',
     method: 'post',
@@ -18,7 +18,7 @@ export function Insert (data) {
 }
 
 //修改
-export function Update (data) {
+export function UpdateMenu (data) {
   return request({
     url: '/menu',
     method: 'put',
@@ -27,7 +27,7 @@ export function Update (data) {
 }
 
 //刪除
-export function Delete (ids) {
+export function DeleteMenu (ids) {
   return request({
     url: `/menu/${ids}`,
     method: 'delete'

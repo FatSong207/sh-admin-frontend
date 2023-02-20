@@ -57,7 +57,7 @@ request.interceptors.response.use(
         return response
       }
       message.error(response.data.message)
-      return response
+      return Promise.reject(response.data.message)
     }
     return response
   },
