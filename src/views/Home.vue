@@ -63,6 +63,7 @@
         </div>
       </a-layout-header>
 
+      
       <div :style="{ padding: '8px 0px 0px 18px', }">
         <a-breadcrumb>
           <a-breadcrumb-item v-for="item, index in matched" :key="index">
@@ -85,13 +86,12 @@
           </template>
         </a-breadcrumb> -->
       </div>
-      <a-layout-content :style="{ margin: '10px', }"
-        class="content">
+      <a-layout-content :style="{ margin: '10px', }" class="content">
         <router-view v-slot="{ Component }">
           <transition name="fade-transform" mode="out-in">
-            <keep-alive>
+            <!-- <keep-alive> -->
               <component :is="Component" />
-            </keep-alive>
+            <!-- </keep-alive> -->
           </transition>
         </router-view>
       </a-layout-content>
@@ -174,7 +174,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .sider {
   background: #fff;
   border-right: 0.5px solid #F0F2F5;
@@ -223,6 +223,13 @@ export default {
   margin-left: 10px;
 }
 
+.popover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
+
 .title {
   font-size: 20px;
   color: rgba(31, 31, 31, 0.85);
@@ -230,11 +237,12 @@ export default {
   margin-left: 10px;
   overflow: hidden;
 }
-
+</style>
+<style>
 .searchcard {
-    margin-bottom: 20px;
-    width: 100%;
-    box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
+  margin-bottom: 20px;
+  width: 100%;
+  box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
 }
 
 
@@ -244,7 +252,7 @@ export default {
 }
 
 .card {
-    /* margin-bottom: 20px; */
-    box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
+  /* margin-bottom: 20px; */
+  box-shadow: 0 1px 16px 0 rgb(33 41 48 / 15%);
 }
 </style>

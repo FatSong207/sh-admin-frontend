@@ -42,3 +42,11 @@ export function DeleteApi (ids) {
     method: 'delete'
   })
 }
+
+//獲取所有Api，用於角色管理_設置權限下的tree顯示
+export function getAllApiTree () {
+  return request({
+    url: '/api/tree',
+    method: 'get'
+  })
+}

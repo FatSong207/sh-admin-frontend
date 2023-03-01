@@ -93,7 +93,11 @@ const data = reactive({
         dataIndex: 'userName',
         align: 'center',
         fixed: 'left',
-        width: 80
+        width: 80,
+        customRender: text => {
+            let m = text.value
+            return m? m : '匿名訪問'
+        }
     }, {
         title: '時間',
         dataIndex: 'created',
