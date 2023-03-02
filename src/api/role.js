@@ -1,6 +1,6 @@
 import request from '../axios/index'
 
-// api列表
+// role列表
 export function getRoleList (param) {
   return request({
     url: '/role',
@@ -40,5 +40,13 @@ export function DeleteRole (ids) {
   return request({
     url: `/role/${ids}`,
     method: 'delete'
+  })
+}
+
+// All Role下拉
+export function GetAllRole () {
+  return request({
+    url: '/role/all',
+    method: 'get'
   })
 }

@@ -22,7 +22,6 @@ import { message } from 'ant-design-vue';
 import { reactive, onMounted, watch } from 'vue';
 import { getAllApiTree } from '../../../api/api'
 import { GetAccessApiPathByRoleId, UpdateCasbin } from '../../../api/casbin'
-import { GetAuthorizeIds, UpdateRoleAuthorize } from '../../../api/role_authorize'
 
 const props = defineProps({
     id: {
@@ -33,10 +32,12 @@ const props = defineProps({
     }
 })
 
-watch(() => props.id, (a) => {
+watch(() => props.id, async (a) => {
     if (a) {
         // console.log(a)
-        getTreeData()
+        const res2 = await GetAccessApiPathByRoleId(props.id)
+        // console.log(res2)
+        data.checkedKeys = res2.data.data
     }
 });
 

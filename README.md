@@ -1,4 +1,5 @@
 # sh-admin-frontend
 
-vue 3
+vue3
 ant design
+pinia

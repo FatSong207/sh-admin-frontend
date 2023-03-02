@@ -1,12 +1,12 @@
 <template>
     <div>
-        <a-card class="searchcard">
+        <!-- <a-card class="searchcard">
             <a-input v-model:value="data.keyWord" placeholder="功能名稱" style="width: 280px; margin-right: 50px;">
                 <template #suffix>
                     <search-outlined style="color: rgba(0, 0, 0, 0.45)" @click="onSearch" />
                 </template>
             </a-input>
-        </a-card>
+        </a-card> -->
         <a-card class="card">
             <a-space class="btnspace">
                 <a-button @click="getAllMenu">刷新</a-button>

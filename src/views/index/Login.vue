@@ -39,8 +39,6 @@ import { ref, reactive, onMounted } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../../store/user'
-import { userLogin } from '../../api/user';
-import { message } from 'ant-design-vue';
 
 export default {
     components: {
