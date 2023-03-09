@@ -2,18 +2,11 @@
     <div>
         <a-card class="searchcard">
             <a-form layout="inline">
+                <a-form-item label="查詢">
+                    <a-input ref="select" v-model:value="data.searchform.keyWord" style="width: 120px" allowClear>
+                    </a-input>
+                </a-form-item>
                 <a-space>
-                    <a-form-item label="方法">
-                        <a-select ref="select" v-model:value="data.searchform.method" style="width: 120px" allowClear>
-                            <a-select-option v-for="item in data.methodOption" :key="item.index" :value="item.value">
-                                {{ item.label }}
-                            </a-select-option>
-                        </a-select>
-                    </a-form-item>
-                    <a-form-item label="分組">
-                        <a-input ref="select" v-model:value="data.searchform.apiGroup" allowClear>
-                        </a-input>
-                    </a-form-item>
                     <a-button shape="circle" @click="onClean">
                         <template #icon>
                             <ReloadOutlined />
@@ -142,22 +135,6 @@ const data = reactive({
             return m == 'Invalid date' ? '' : m
         }
     }],
-    methodOption: [{
-        label: 'GET',
-        value: 'GET'
-    },
-    {
-        label: 'POST',
-        value: 'POST'
-    },
-    {
-        label: 'PUT',
-        value: 'PUT'
-    },
-    {
-        label: 'DELETE',
-        value: 'DELETE'
-    }],
     loading: false,
     modalVisible: false,
     modalTitle: "",
@@ -171,8 +148,6 @@ onMounted(() => {
 const getList = () => {
     data.loading = true
     let param = {
-        method: data.searchform.method,
-        apiGroup: data.searchform.apiGroup,
         pageNum: data.pagination.current,
         pageSize: data.pagination.pageSize,
     }
@@ -291,7 +266,5 @@ const reseteditForm = () => {
 </script>
 
 <style lang="scss" scoped>
-.ant-table-striped :deep(.table-striped) td {
-    background-color: #fafafa;
-}
+
 </style>

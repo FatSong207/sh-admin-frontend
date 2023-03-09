@@ -1,8 +1,8 @@
-import { userLogin, getUserInfo } from '../api/login'
+import { userLogin, getUserInfo } from '../api/user'
 import { getUserMenuTree } from '../api/menu'
 import { defineStore } from 'pinia'
 import router from '../router/index'
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouterStore } from '../store/router'
 
 export const useUserStore = defineStore('user', () => {

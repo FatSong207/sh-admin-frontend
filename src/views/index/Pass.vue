@@ -25,7 +25,7 @@
 <script>
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { getVerifyCode } from '../../api/login'
+import { getVerifyCode } from '../../api/user'
 import { message } from 'ant-design-vue';
 
 export default {

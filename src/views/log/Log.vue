@@ -96,7 +96,7 @@ const data = reactive({
         width: 80,
         customRender: text => {
             let m = text.value
-            return m ? m : '匿名訪問'
+            return m? m : '匿名訪問'
         }
     }, {
         title: '時間',
@@ -206,7 +206,7 @@ const fmtBody = (value) => {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ant-table-striped :deep(.table-striped) td {
     background-color: #fafafa;
 }

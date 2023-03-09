@@ -185,7 +185,7 @@ const fmtBody = (value) => {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ant-table-striped :deep(.table-striped) td {
     background-color: #fafafa;
 }

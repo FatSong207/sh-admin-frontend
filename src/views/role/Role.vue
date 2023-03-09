@@ -2,8 +2,8 @@
     <div>
         <a-card class="searchcard">
             <a-form layout="inline">
-                <a-form-item label="名稱">
-                    <a-input ref="select" v-model:value="data.searchform.name" allowClear>
+                <a-form-item label="查詢">
+                    <a-input ref="select" v-model:value="data.searchform.keyWord" style="width: 120px" allowClear>
                     </a-input>
                 </a-form-item>
                 <a-space>
@@ -180,7 +180,6 @@ onMounted(() => {
 const getList = () => {
     data.loading = true
     let param = {
-        name: data.searchform.name,
         pageNum: data.pagination.current,
         pageSize: data.pagination.pageSize,
     }
@@ -300,7 +299,5 @@ const reseteditForm = () => {
 </script>
 
 <style lang="scss" scoped>
-.ant-table-striped :deep(.table-striped) td {
-    background-color: #fafafa;
-}
+
 </style>
