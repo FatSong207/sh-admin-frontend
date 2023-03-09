@@ -64,7 +64,7 @@ request.interceptors.response.use(
   error => {
     // console.log(error)
     message.error(error.message)
-    router.push('/error')
+    router.push('/login')
     return Promise.reject(error)
   }
 )
